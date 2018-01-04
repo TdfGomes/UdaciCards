@@ -14,6 +14,7 @@ export default class DeckList extends Component{
       <Deck
         title={this.state.decks[item].title}
         cards={this.state.decks[item].questions.length}
+        navigation={this.props.navigation}
       />
     )
   }

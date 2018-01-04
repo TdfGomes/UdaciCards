@@ -1,9 +1,9 @@
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 
-const QuizScreen = () => (
+const AddDeck = () => (
   <View style={styles.container}>
-    <Text>QUIZ</Text>
+    <Text>Add Deck</Text>
   </View>
 )
 const styles = StyleSheet.create({
@@ -14,4 +14,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default QuizScreen
+export default AddDeck

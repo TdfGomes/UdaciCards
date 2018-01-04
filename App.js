@@ -1,11 +1,18 @@
 import React from 'react'
 import { View, Platform, StatusBar } from 'react-native'
 import DeckList from './components/DeckList'
-import QuizScreen from './components/QuizScreen'
-import { TabNavigator } from 'react-navigation'
+import AddDeckScreen from './components/AddDeckScreen'
+import SingleDeck from './components/SingleDeck'
+import { TabNavigator, StackNavigator } from 'react-navigation'
 import { Ionicons } from '@expo/vector-icons'
 import { teal, lightGray, lime } from './utils/colors'
 import { Constants } from 'expo'
+
+const AppStatusBar = ({ backgroundColor, ...props }) => (
+  <View style={{ backgroundColor, height: Constants.statusBarHeight }}>
+    <StatusBar translucent backgroundColor={backgroundColor} {...props} />
+  </View>
+)
 
 const Tabs = TabNavigator({
   Home: {
@@ -15,11 +22,11 @@ const Tabs = TabNavigator({
       tabBarIcon: ({tintColor}) => <Ionicons name={Platform.OS === 'ios' ? 'ios-home' : 'md-home'} size={30} color={tintColor} />
     },
   },
-  Quiz: {
-    screen: QuizScreen,
+  Add: {
+    screen: AddDeckScreen,
     navigationOptions: {
-      tabBarLabel: 'Quiz',
-      tabBarIcon: ({ tintColor }) => <Ionicons name={Platform.OS === 'ios' ? 'ios-help-circle' : 'md-help-circle'} size={30} color={tintColor} />
+      tabBarLabel: 'Add Deck',
+      tabBarIcon: ({ tintColor }) => <Ionicons name={Platform.OS === 'ios' ? 'ios-add-circle' : 'md-add-circle'} size={30} color={tintColor} />
     },
   },
 },{
@@ -45,21 +52,25 @@ const Tabs = TabNavigator({
   }
 })
 
-const AppStatusBar = ({ backgroundColor, ...props }) => (
-  <View style={{ backgroundColor, height: Constants.statusBarHeight, marginBottom:35 }}>
-    <StatusBar translucent backgroundColor={backgroundColor} {...props} />
-  </View>
-)
+const MainNavigation = StackNavigator({
+  Home:{
+    screen:Tabs,
+    navigationOptions:{
+      header:null
+    }
+  },
+  SingleDeck:{
+    screen:SingleDeck
+  }
+})
 
 export default class App extends React.Component {
   render() {
     return (
       <View style={{ flex: 1}}>
         <AppStatusBar backgroundColor={teal} barStyle="light-content"/>
-        <Tabs/>
+        <MainNavigation/>
       </View>
     );
   }
 }
-
-

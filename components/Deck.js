@@ -1,15 +1,15 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, Platform, TouchableOpacity } from 'react-native'
 import { teal, gray, white, lightGray } from '../utils/colors';
+import CardsNumber from './CardsNumber';
 
 const Deck = (props) => (
-  <View style={styles.deck}>
-    <Text style={styles.title}>{props.title}</Text>
-    <Text style={styles.cards}>
-      <Text style={styles.number}>{props.cards}</Text>
-      <Text>Cards</Text>
-    </Text>
-  </View>
+  <TouchableOpacity onPress={() => props.navigation.navigate('SingleDeck',{deckId:props.title})}>
+    <View style={styles.deck}>
+      <Text style={styles.title}>{props.title}</Text>
+      <CardsNumber cards={props.cards}/>
+    </View>
+  </TouchableOpacity>
 )
 
 const styles = StyleSheet.create({
@@ -36,18 +36,6 @@ const styles = StyleSheet.create({
     fontWeight:'300',
     fontSize:20,
     marginBottom:10
-  },
-  cards:{
-    color:gray,
-    fontSize:15
-  },
-  number:{
-    borderRadius:5,
-    borderWidth:0.5,
-    // borderStyle:'solid',
-    borderColor:teal,
-    padding:5,
-    marginRight:3
   }
 })
 
