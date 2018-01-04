@@ -62,6 +62,10 @@ const MainNavigation = StackNavigator({
   SingleDeck:{
     screen:SingleDeck
   }
+},{
+    navigationOptions:{
+      headerTintColor:teal
+    }
 })
 
 export default class App extends React.Component {

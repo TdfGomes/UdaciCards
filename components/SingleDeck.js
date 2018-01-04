@@ -49,14 +49,15 @@ const styles = StyleSheet.create({
   },
   title:{
     fontWeight:'bold',
-    fontSize:30,
+    fontSize:35,
     marginBottom:7,
     color:teal
   },
   buttonsWrapper:{
     flex:0.3,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginBottom:35
   },
   button:{
     width:142,
