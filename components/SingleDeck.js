@@ -10,7 +10,7 @@ export default class SingleDeck extends Component {
   }
   
   static navigationOptions = ({ navigation }) =>({
-    title:`${navigation.state.params.deckId}`
+    title:`${navigation.state.params.deckId} Quiz`
   })
 
   render(){
