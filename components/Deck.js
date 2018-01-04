@@ -7,7 +7,7 @@ const Deck = (props) => (
   <TouchableOpacity onPress={() => props.navigation.navigate('SingleDeck',{deckId:props.title})}>
     <View style={styles.deck}>
       <Text style={styles.title}>{props.title}</Text>
-      <CardsNumber cards={props.cards}/>
+      <CardsNumber cards={props.cards} fontSize={15}/>
     </View>
   </TouchableOpacity>
 )

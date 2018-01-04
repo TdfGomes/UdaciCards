@@ -5,13 +5,12 @@ import { teal } from '../utils/colors'
 const CardsNumber = (props) => (
   <View style={styles.cardsContainer}>
     <View style={styles.number}><Text style={{ fontWeight: 'bold' }}>{props.cards}</Text></View>
-    <Text>Cards</Text>
+    <Text style={{fontSize:props.fontSize}}>Cards</Text>
   </View>
 )
 
 const styles = StyleSheet.create({
   cardsContainer: {
-    flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center'
