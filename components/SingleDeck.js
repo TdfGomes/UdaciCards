@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity} from 'react-native'
 import CardsNumber from './CardsNumber';
+import Buttons from './Buttons'
 import { DB } from '../utils/db'
 import { teal, lightGray } from '../utils/colors';
 
@@ -23,14 +24,12 @@ export default class SingleDeck extends Component {
             fontSize={20}
             />
         </View>
-        <View style={styles.buttonsWrapper}>
-          <TouchableOpacity style={[styles.button, {borderColor:teal,borderWidth:1.3}]}>
-            <Text style={{fontSize:20, color:teal, textAlign:'center'}}>Add Cart</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.button, { backgroundColor: teal}]}>
-            <Text style={{ fontSize: 20, color: lightGray, textAlign:'center'}}>Start Quiz</Text>
-          </TouchableOpacity>
-        </View>
+        <Buttons
+          primary={teal}
+          secondary={lightGray}
+          primaryTitle='Add Cart'
+          secondaryTitle='Start Quiz'
+        />
       </View>
     )
   }
@@ -52,18 +51,5 @@ const styles = StyleSheet.create({
     fontSize:30,
     marginBottom:7,
     color:teal
-  },
-  buttonsWrapper:{
-    flex:0.3,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  button:{
-    width:142,
-    paddingTop:15,
-    paddingBottom:15,
-    marginBottom:15,
-    borderRadius:5,
-  }
-  
+  }  
 })
