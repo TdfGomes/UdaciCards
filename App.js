@@ -3,6 +3,7 @@ import { View, Platform, StatusBar } from 'react-native'
 import DeckList from './components/DeckList'
 import AddDeckScreen from './components/AddDeckScreen'
 import SingleDeck from './components/SingleDeck'
+import QuizScreen from './components/QuizScreen'
 import { TabNavigator, StackNavigator } from 'react-navigation'
 import { Ionicons } from '@expo/vector-icons'
 import { teal, lightGray, lime } from './utils/colors'
@@ -59,9 +60,8 @@ const MainNavigation = StackNavigator({
       header:null
     }
   },
-  SingleDeck:{
-    screen:SingleDeck
-  }
+  SingleDeck:{ screen:SingleDeck },
+  Quiz: { screen:QuizScreen }
 },{
     navigationOptions:{
       headerTintColor:teal

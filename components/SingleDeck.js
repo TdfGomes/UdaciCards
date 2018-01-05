@@ -11,7 +11,8 @@ export default class SingleDeck extends Component {
   }
   
   static navigationOptions = ({ navigation }) =>({
-    title:`${navigation.state.params.deckId} Quiz`
+    title:`${navigation.state.params.deckId} Quiz`,
+    headerBackTitle: 'Back',
   })
 
   render(){
@@ -22,13 +23,15 @@ export default class SingleDeck extends Component {
           <CardsNumber 
             cards={this.state.decks[this.props.navigation.state.params.deckId].questions.length}
             fontSize={20}
-            />
+          />
         </View>
         <Buttons
           primary={teal}
           secondary={lightGray}
           primaryTitle='Add Cart'
           secondaryTitle='Start Quiz'
+          navigation={this.props.navigation}
+          deckId={this.state.decks[this.props.navigation.state.params.deckId]}
         />
       </View>
     )
@@ -42,13 +45,14 @@ const styles = StyleSheet.create({
     alignItems:'center'
   },
   titleWrapper:{
-    flex:0.7,
-    justifyContent: 'center',
+    flex:0.5,
+    justifyContent: 'flex-start',
     alignItems: 'center'
   },
   title:{
     fontWeight:'bold',
     fontSize:35,
+    marginTop:7,
     marginBottom:7,
     color:teal
   }  
