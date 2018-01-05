@@ -4,7 +4,7 @@ import { teal, gray, white, lightGray } from '../utils/colors';
 import CardsNumber from './CardsNumber';
 
 const Deck = (props) => (
-  <TouchableOpacity onPress={() => props.navigation.navigate('SingleDeck',{deckId:props.title})}>
+  <TouchableOpacity onPress={props.onPress}>
     <View style={styles.deck}>
       <Text style={styles.title}>{props.title}</Text>
       <CardsNumber cards={props.cards} fontSize={15}/>

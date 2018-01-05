@@ -60,8 +60,20 @@ const MainNavigation = StackNavigator({
       header:null
     }
   },
-  SingleDeck:{ screen:SingleDeck },
-  Quiz: { screen:QuizScreen }
+  SingleDeck:{
+    screen:SingleDeck,
+    navigationOptions: ({navigation}) => ({
+      title: `${navigation.state.params.deckId} Quiz`,
+      headerBackTitle: 'Back',
+    })
+  },
+  Quiz: { 
+    screen:QuizScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: `${navigation.state.params.deckId} Questions`,
+      headerBackTitle: 'Back',
+    })
+  }
 },{
     navigationOptions:{
       headerTintColor:teal

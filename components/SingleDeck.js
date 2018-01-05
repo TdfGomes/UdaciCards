@@ -10,10 +10,10 @@ export default class SingleDeck extends Component {
     decks: DB
   }
   
-  static navigationOptions = ({ navigation }) =>({
-    title:`${navigation.state.params.deckId} Quiz`,
-    headerBackTitle: 'Back',
-  })
+  // static navigationOptions = ({ navigation }) =>({
+  //   title:`${navigation.state.params.deckId} Quiz`,
+  //   headerBackTitle: 'Back',
+  // })
 
   render(){
     return(
@@ -31,7 +31,8 @@ export default class SingleDeck extends Component {
           primaryTitle='Add Cart'
           secondaryTitle='Start Quiz'
           navigation={this.props.navigation}
-          deckId={this.state.decks[this.props.navigation.state.params.deckId]}
+          onPressPrimary={() => console.log('secondary')}
+          onPressSecondary={() => this.props.navigation.navigate('Quiz', { deckId: this.props.navigation.state.params.deckId })}
         />
       </View>
     )

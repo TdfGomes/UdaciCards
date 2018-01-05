@@ -8,28 +8,38 @@ const {width, height} = Dimensions.get('window')
 
 export default class SingleDeck extends Component {
   state={
-    currentQuestion:1
+    currQ:1,
+    decks: DB
   }
 
-  static navigationOptions = ({ navigation }) => ({
-     title: `${navigation.state.params.deckId.title} Questions`,
-     headerBackTitle: 'Back',
-  })
+  _correctAnswer = () => {
+    const { navigation: { state: { params: { deckId } } } } = this.props
+    const currQuiz = this.state.decks[deckId]
+    
+    if (this.state.currQ < currQuiz.questions.length){
+      this.setState( (prevState) => ({
+        currQ: prevState.currQ + 1
+      }))
+      this.scrollView.scrollTo({ x: width * this.state.currQ }, true)
+    }
+  }
 
   render(){
     const {navigation:{state:{params:{deckId}}}} = this.props
-    
+    const currQuiz = this.state.decks[deckId]
+
     return(
       <View style={[styles.container, { flex: 1}]}>
         <View style={styles.questionsCounter}>
-          <Text style={styles.questionsNumber}>{`${this.state.currentQuestion}/${deckId.questions.length}`}</Text>
+          <Text style={styles.questionsNumber}>{`${this.state.currQ}/${currQuiz.questions.length}`}</Text>
         </View>
-        <ScrollView 
-          pagingEnabled={true}
-          horizontal={true}
+        <ScrollView
+          ref={(scrollView) => { this.scrollView = scrollView; }} 
+          horizontal
           decelerationRate={0}
           snapToInterval={width}
-          snapToAlignment={"center"}
+          snapToAlignment={'center'}
+          scrollEnabled={false}
           contentInset={{
             top: 0,
             left: 30,
@@ -37,10 +47,10 @@ export default class SingleDeck extends Component {
             right: 30,
           }}>
           {
-            deckId.questions.map( (question, index) => {
+            currQuiz.questions.map( (question, index) => {
               return(
                 <View key={index} style={styles.question}>
-                  <Text style={{textAlign:'center'}}>{question.question}</Text>
+                  <Text style={styles.questionText}>{question.question}</Text>
                 </View>              
               )
             })
@@ -51,7 +61,9 @@ export default class SingleDeck extends Component {
           secondary={lightGray}
           primaryTitle='Incorrect'
           secondaryTitle='Correct'
-        />
+          onPressPrimary={() => console.log('secondary')}
+          onPressSecondary={this._correctAnswer}
+        /> 
       </View>
     )
   }
@@ -80,10 +92,14 @@ const styles = StyleSheet.create({
   },
   question:{
     width,
-    position:'absolute',
-    // top: Math.ceil(height / 2),
+    height: Math.ceil(height / 2),
+    marginBottom:35,
     transform:[
-      {translateY:Math.ceil(height / 2) * -1}
+      {translateY:Math.ceil(height / 3)}
     ]
+  },
+  questionText:{
+    textAlign:'center',
+    fontSize:28
   }
 })
