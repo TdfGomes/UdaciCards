@@ -17,16 +17,16 @@ class DeckList extends Component{
     
     return(
       <Deck
-        title={this.state.decks[item].title}
-        cards={this.state.decks[item].questions.length}
-        onPress={() => this.props.navigation.navigate('SingleDeck', { deckId: this.state.decks[item].title })}
+        title={this.props.decks[item].title}
+        cards={this.props.decks[item].questions.length}
+        onPress={() => this.props.navigation.navigate('SingleDeck', { deckId: this.props.decks[item].title })}
       />
     )
   }
   render(){
     return(
       <FlatList 
-        data={Object.keys(this.state.decks)}
+        data={Object.keys(this.props.decks)}
         renderItem={ this._renderDeck }
         keyExtractor={ (item, index) => index}
       />
