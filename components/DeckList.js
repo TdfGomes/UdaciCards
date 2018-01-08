@@ -1,12 +1,17 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, FlatList } from 'react-native'
-import { DB } from '../utils/db'
 import Deck from './Deck'
+import { getDecks } from '../utils/api'
+import { connect } from 'react-redux'
+import { reciveDecks } from '../actions'
 
-export default class DeckList extends Component{
-  state = {
-    decks: DB
+class DeckList extends Component{
+  
+  componentDidMount() {
+    const { dispatch } = this.props
+    getDecks().then(r => dispatch(reciveDecks(JSON.parse(r))))
   }
+  
   _renderDeck = (deck) => {
     const { item } = deck
     
@@ -36,4 +41,10 @@ const styles = StyleSheet.create({
     alignItems:'center'
   },
 })
+
+const mapToStateProps = (decks) => ({
+  decks,
+})
+
+export default connect(mapToStateProps)(DeckList)
 
