@@ -1,4 +1,7 @@
 import React from 'react'
+import { createStore }  from 'redux'
+import { Provider } from 'react-redux'
+import decks from './reducers'
 import { View, Platform, StatusBar } from 'react-native'
 import DeckList from './components/DeckList'
 import AddDeckScreen from './components/AddDeckScreen'
@@ -8,6 +11,10 @@ import { TabNavigator, StackNavigator } from 'react-navigation'
 import { Ionicons } from '@expo/vector-icons'
 import { teal, lightGray, lime } from './utils/colors'
 import { Constants } from 'expo'
+
+
+
+const store = createStore(decks)
 
 const AppStatusBar = ({ backgroundColor, ...props }) => (
   <View style={{ backgroundColor, height: Constants.statusBarHeight }}>
@@ -83,10 +90,12 @@ const MainNavigation = StackNavigator({
 export default class App extends React.Component {
   render() {
     return (
-      <View style={{ flex: 1}}>
-        <AppStatusBar backgroundColor={teal} barStyle="light-content"/>
-        <MainNavigation/>
-      </View>
+      <Provider store={store}>
+        <View style={{ flex: 1}}>
+          <AppStatusBar backgroundColor={teal} barStyle="light-content"/>
+          <MainNavigation/>
+        </View>
+      </Provider>
     );
   }
 }

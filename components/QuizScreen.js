@@ -2,11 +2,12 @@ import React, { Component } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Dimensions } from 'react-native'
 import Buttons from './Buttons'
 import { DB } from '../utils/db'
+// import { connect } from 'react-redux'
 import { teal, lightGray, gray } from '../utils/colors';
 
 const {width, height} = Dimensions.get('window')
 
-export default class SingleDeck extends Component {
+class SingleDeck extends Component {
   state={
     currQ:1,
     decks: DB
@@ -103,3 +104,5 @@ const styles = StyleSheet.create({
     fontSize:28
   }
 })
+
+export default SingleDeck
