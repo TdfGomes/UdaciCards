@@ -18,8 +18,8 @@ class AddDeck extends Component{
     const { title } = this.state
     const { dispatch } = this.props
     
-    submitDeck(title)
     if(title.length > 0){
+      submitDeck(title)
       dispatch(addDeck(title))
       this.setState({visible:true})
     }
@@ -29,8 +29,8 @@ class AddDeck extends Component{
   render(){
     return(
       <View style={styles.container}>
-        <Text style={styles.label}>Add a new card deck here</Text>
-        <View style={styles.inpuContainer}>
+        <Text style={styles.label}>Add a new deck title</Text>
+        <View style={styles.inputContainer}>
           <TextInput 
             style={styles.input}
             onChangeText={(title) => this.setState({title})}
@@ -42,11 +42,7 @@ class AddDeck extends Component{
             onSubmitEditing={this._submit}
             />
         </View>
-        <Modal
-          visible={this.state.visible}
-          animationType='fade'
-          onRequestClose={()=>console.log('CLOSE')}
-          >
+        <Modal visible={this.state.visible} animationType='fade'>
           <View style={styles.container}>
             <TouchableOpacity 
               onPress={() => this.setState((prevState)=>({visible:!prevState.visible,title:''}))}
@@ -75,7 +71,7 @@ const styles = StyleSheet.create({
     marginBottom:10,
     fontSize:25
   },
-  inpuContainer:{
+  inputContainer:{
     flexDirection:'row',
     alignItems:'center',
   },

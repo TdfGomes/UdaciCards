@@ -5,7 +5,7 @@ import { getDecks } from '../utils/api'
 import { connect } from 'react-redux'
 import { reciveDecks } from '../actions'
 import { AppLoading } from 'expo'
-import { DECKS_STORAGE_KEY } from '../utils/_decks'
+
 
 class DeckList extends Component{
   state = {
@@ -15,12 +15,11 @@ class DeckList extends Component{
 
   componentDidMount() {
     const { dispatch } = this.props
-    // getDecks()
-    // .then(r => dispatch(reciveDecks(JSON.parse(r))))
-    // .then(() => this.setState(() => ({loaded:true})))
+    
     getDecks()
-    .then(r => console.log(r))
-
+    .then(decks => dispatch( reciveDecks(decks) ))
+    .then(() => this.setState(() => ({loaded:true})))
+  
   }
   
   _renderDeck = ({item}) => {
@@ -43,12 +42,12 @@ class DeckList extends Component{
     }
 
     return(
-      // <FlatList 
-      //   data={Object.keys(this.props.decks)}
-      //   renderItem={ this._renderDeck }
-      //   keyExtractor={ (item, index) => index}
-      // />
-      <View>HEELOO WORKS</View>
+      <FlatList 
+        data={Object.keys(this.props.decks)}
+        renderItem={ this._renderDeck }
+        keyExtractor={ (item, index) => index}
+      />
+      // <Text>HEELOO WORKS</Text>
     )
   }
 }

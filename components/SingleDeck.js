@@ -9,13 +9,9 @@ import { teal, lightGray } from '../utils/colors';
 
 class SingleDeck extends Component {
   
-  // static navigationOptions = ({ navigation }) =>({
-  //   title:`${navigation.state.params.deckId} Quiz`,
-  //   headerBackTitle: 'Back',
-  // })
   componentDidMount() {
-    const {  dispatch } = this.props
-    getDecks().then(r => dispatch(reciveDecks(JSON.parse(r))))
+    const { dispatch } = this.props
+    getDecks().then(decks => dispatch(reciveDecks(decks)))
   }
 
   render(){
@@ -34,7 +30,7 @@ class SingleDeck extends Component {
           primaryTitle='Add Cart'
           secondaryTitle='Start Quiz'
           navigation={this.props.navigation}
-          onPressPrimary={() => console.log('secondary')}
+          onPressPrimary={() => this.props.navigation.navigate('AddCard', { deckId: this.props.navigation.state.params.deckId })}
           onPressSecondary={() => this.props.navigation.navigate('Quiz', { deckId: this.props.navigation.state.params.deckId })}
         />
       </View>

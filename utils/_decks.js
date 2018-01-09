@@ -27,5 +27,3 @@ export const initialDecks = {
   }
 }
 
-
-// AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify({}));

@@ -7,12 +7,11 @@ import DeckList from './components/DeckList'
 import AddDeckScreen from './components/AddDeckScreen'
 import SingleDeck from './components/SingleDeck'
 import QuizScreen from './components/QuizScreen'
+import AddCardScreen from './components/AddCardScreen'
 import { TabNavigator, StackNavigator } from 'react-navigation'
 import { Ionicons } from '@expo/vector-icons'
 import { teal, lightGray, lime } from './utils/colors'
 import { Constants } from 'expo'
-
-
 
 const store = createStore(decks)
 
@@ -78,6 +77,13 @@ const MainNavigation = StackNavigator({
     screen:QuizScreen,
     navigationOptions: ({ navigation }) => ({
       title: `${navigation.state.params.deckId} Questions`,
+      headerBackTitle: 'Back',
+    })
+  },
+  AddCard: {
+    screen: AddCardScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: `Add Card to ${navigation.state.params.deckId} Deck`,
       headerBackTitle: 'Back',
     })
   }
