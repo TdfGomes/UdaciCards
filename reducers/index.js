@@ -5,7 +5,13 @@ const decks = (state = {}, action) => {
     case RECIVE_DECKS:
       return action.decks
     case ADD_DECK:
-      return state
+      return{
+        ...state,
+        [action.deck]: {
+          title: action.deck,
+          questions: []
+        }
+      }
     case ADD_CARD:
       return state
     default: 

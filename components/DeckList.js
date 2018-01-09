@@ -4,12 +4,17 @@ import Deck from './Deck'
 import { getDecks } from '../utils/api'
 import { connect } from 'react-redux'
 import { reciveDecks } from '../actions'
+import { AppLoading } from 'expo'
 
 class DeckList extends Component{
-  
+  state = {
+    loaded:false
+  }
   componentDidMount() {
     const { dispatch } = this.props
-    getDecks().then(r => dispatch(reciveDecks(JSON.parse(r))))
+    getDecks()
+    .then(r => dispatch(reciveDecks(JSON.parse(r))))
+    .then(() => this.setState(() => ({loaded:true})))
   }
   
   _renderDeck = ({item}) => {
@@ -25,6 +30,12 @@ class DeckList extends Component{
     )
   }
   render(){
+    const {loaded} = this.state
+
+    if (loaded === false) {
+      return <AppLoading />
+    }
+
     return(
       <FlatList 
         data={Object.keys(this.props.decks)}
