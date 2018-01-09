@@ -12,14 +12,15 @@ class DeckList extends Component{
     getDecks().then(r => dispatch(reciveDecks(JSON.parse(r))))
   }
   
-  _renderDeck = (deck) => {
-    const { item } = deck
+  _renderDeck = ({item}) => {
     
+    const { decks } = this.props
+
     return(
       <Deck
-        title={this.props.decks[item].title}
-        cards={this.props.decks[item].questions.length}
-        onPress={() => this.props.navigation.navigate('SingleDeck', { deckId: this.props.decks[item].title })}
+        title={decks[item].title}
+        cards={decks[item].questions.length}
+        onPress={() => this.props.navigation.navigate('SingleDeck', { deckId: decks[item].title })}
       />
     )
   }

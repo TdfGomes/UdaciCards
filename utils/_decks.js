@@ -27,8 +27,5 @@ const initialDecks = {
   }
 }
 
-// try {
-//   await AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(initialDecks));
-// } catch (error) {
-//   throw new Error(error)
-// }
+
+AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(initialDecks));

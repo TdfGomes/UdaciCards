@@ -2,18 +2,21 @@ import React, { Component } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity} from 'react-native'
 import CardsNumber from './CardsNumber';
 import Buttons from './Buttons'
-import { DB } from '../utils/db'
+import { getDecks } from '../utils/api'
+import { connect } from 'react-redux'
+import { reciveDecks } from '../actions'
 import { teal, lightGray } from '../utils/colors';
 
-export default class SingleDeck extends Component {
-  state = {
-    decks: DB
-  }
+class SingleDeck extends Component {
   
   // static navigationOptions = ({ navigation }) =>({
   //   title:`${navigation.state.params.deckId} Quiz`,
   //   headerBackTitle: 'Back',
   // })
+  componentDidMount() {
+    const {  dispatch } = this.props
+    getDecks().then(r => dispatch(reciveDecks(JSON.parse(r))))
+  }
 
   render(){
     return(
@@ -21,7 +24,7 @@ export default class SingleDeck extends Component {
         <View style={styles.titleWrapper}>
           <Text style={styles.title}>{this.props.navigation.state.params.deckId}</Text>
           <CardsNumber 
-            cards={this.state.decks[this.props.navigation.state.params.deckId].questions.length}
+            cards={this.props.decks[this.props.navigation.state.params.deckId].questions.length}
             fontSize={20}
           />
         </View>
@@ -58,3 +61,8 @@ const styles = StyleSheet.create({
     color:teal
   }  
 })
+
+const mapStateToProps = (decks) => ({
+  decks,
+})
+export default connect(mapStateToProps)(SingleDeck)

@@ -1,21 +1,26 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Dimensions } from 'react-native'
 import Buttons from './Buttons'
-import { DB } from '../utils/db'
-// import { connect } from 'react-redux'
 import { teal, lightGray, gray } from '../utils/colors';
+import { getDecks } from '../utils/api'
+import { connect } from 'react-redux'
+import { reciveDecks } from '../actions'
 
 const {width, height} = Dimensions.get('window')
 
-class SingleDeck extends Component {
+class QuizScreen extends Component {
   state={
     currQ:1,
-    decks: DB
+  }
+
+  componentDidMount() {
+    const { dispatch } = this.props
+    getDecks().then(r => dispatch(reciveDecks(JSON.parse(r))))
   }
 
   _correctAnswer = () => {
     const { navigation: { state: { params: { deckId } } } } = this.props
-    const currQuiz = this.state.decks[deckId]
+    const currQuiz = this.props.decks[deckId]
     
     if (this.state.currQ < currQuiz.questions.length){
       this.setState( (prevState) => ({
@@ -27,7 +32,7 @@ class SingleDeck extends Component {
 
   render(){
     const {navigation:{state:{params:{deckId}}}} = this.props
-    const currQuiz = this.state.decks[deckId]
+    const currQuiz = this.props.decks[deckId]
 
     return(
       <View style={[styles.container, { flex: 1}]}>
@@ -105,4 +110,7 @@ const styles = StyleSheet.create({
   }
 })
 
-export default SingleDeck
+const mapStateToProps = (decks) => ({
+  decks,
+})
+export default connect(mapStateToProps)(QuizScreen)
