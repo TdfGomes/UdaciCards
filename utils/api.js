@@ -6,12 +6,13 @@ export const getDecks = () => (
 )
 
 export const submitDeck = (deck) => {
-console.log(deck)
- return AsyncStorage.mergeItem(DECKS_STORAGE_KEY, JSON.stringify({
-    [deck]:{
-      title:deck,
+  const f = {
+    [deck]: {
+      title: deck,
       questions: []
     }
-  }))
+  }
+
+  return AsyncStorage.mergeItem(DECKS_STORAGE_KEY, JSON.stringify(f))
 }
 

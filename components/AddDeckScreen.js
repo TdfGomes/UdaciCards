@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
-import { View, Text, TextInput,StyleSheet, Platform, Modal } from 'react-native'
+import { View, Text, TextInput, StyleSheet, Platform, Modal, TouchableOpacity, Dimensions } from 'react-native'
 import { teal } from '../utils/colors'
 import { connect } from 'react-redux'
 import { submitDeck } from '../utils/api'
 import { addDeck } from '../actions'
+import { Entypo } from '@expo/vector-icons'
+
+const { width } = Dimensions.get('window')
 
 class AddDeck extends Component{
   state = {
@@ -15,9 +18,11 @@ class AddDeck extends Component{
     const { title } = this.state
     const { dispatch } = this.props
     
-    submitDeck(title)
-    dispatch(addDeck(title))
-    this.setState({visible:true})
+    if(title.length > 0){
+      submitDeck(title).then((r) => console.log(r))
+      dispatch(addDeck(title))
+      this.setState({visible:true})
+    }
     
   }
 
@@ -43,6 +48,12 @@ class AddDeck extends Component{
           onRequestClose={()=>console.log('CLOSE')}
           >
           <View style={styles.container}>
+            <TouchableOpacity 
+              onPress={() => this.setState((prevState)=>({visible:!prevState.visible,title:''}))}
+              style={styles.button}
+            >
+              <Text>Close </Text><Entypo name="cross" size={25} color={teal}/>
+            </TouchableOpacity>
             <Text style={styles.modalText}>
               You add <Text style={{fontWeight:'700',color:teal}}>{this.state.title}</Text> to your Deck List
             </Text>
@@ -62,8 +73,7 @@ const styles = StyleSheet.create({
   label:{
     paddingHorizontal:35,
     marginBottom:10,
-    fontSize:25,
-    alignSelf:'flex-start'
+    fontSize:25
   },
   inpuContainer:{
     flexDirection:'row',
@@ -80,6 +90,13 @@ const styles = StyleSheet.create({
   },
   modalText:{
     fontSize:20
+  },
+  button:{
+    position:'absolute',
+    top:45,
+    left: Math.ceil(width - 90),
+    flexDirection:'row',
+    alignItems:'center'
   }
 })
 

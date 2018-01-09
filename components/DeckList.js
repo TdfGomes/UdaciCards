@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, FlatList } from 'react-native'
+import { View, Text, StyleSheet, FlatList, AsyncStorage } from 'react-native'
 import Deck from './Deck'
 import { getDecks } from '../utils/api'
 import { connect } from 'react-redux'
 import { reciveDecks } from '../actions'
 import { AppLoading } from 'expo'
+import { DECKS_STORAGE_KEY } from '../utils/_decks'
 
 class DeckList extends Component{
   state = {
@@ -15,6 +16,8 @@ class DeckList extends Component{
     getDecks()
     .then(r => dispatch(reciveDecks(JSON.parse(r))))
     .then(() => this.setState(() => ({loaded:true})))
+
+    AsyncStorage.getItem(DECKS_STORAGE_KEY).then((r)=> console.log(JSON.parse(r)))
   }
   
   _renderDeck = ({item}) => {
