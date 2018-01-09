@@ -18,8 +18,8 @@ class AddDeck extends Component{
     const { title } = this.state
     const { dispatch } = this.props
     
+    submitDeck(title)
     if(title.length > 0){
-      submitDeck(title).then((r) => console.log(r))
       dispatch(addDeck(title))
       this.setState({visible:true})
     }

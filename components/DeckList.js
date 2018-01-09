@@ -9,15 +9,18 @@ import { DECKS_STORAGE_KEY } from '../utils/_decks'
 
 class DeckList extends Component{
   state = {
-    loaded:false
+    loaded:true,
+    decks:{}
   }
+
   componentDidMount() {
     const { dispatch } = this.props
+    // getDecks()
+    // .then(r => dispatch(reciveDecks(JSON.parse(r))))
+    // .then(() => this.setState(() => ({loaded:true})))
     getDecks()
-    .then(r => dispatch(reciveDecks(JSON.parse(r))))
-    .then(() => this.setState(() => ({loaded:true})))
+    .then(r => console.log(r))
 
-    AsyncStorage.getItem(DECKS_STORAGE_KEY).then((r)=> console.log(JSON.parse(r)))
   }
   
   _renderDeck = ({item}) => {
@@ -40,11 +43,12 @@ class DeckList extends Component{
     }
 
     return(
-      <FlatList 
-        data={Object.keys(this.props.decks)}
-        renderItem={ this._renderDeck }
-        keyExtractor={ (item, index) => index}
-      />
+      // <FlatList 
+      //   data={Object.keys(this.props.decks)}
+      //   renderItem={ this._renderDeck }
+      //   keyExtractor={ (item, index) => index}
+      // />
+      <View>HEELOO WORKS</View>
     )
   }
 }

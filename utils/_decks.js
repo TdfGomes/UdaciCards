@@ -2,7 +2,7 @@ import { AsyncStorage } from 'react-native'
 
 export const DECKS_STORAGE_KEY = 'UdaciCards:decks'
 
-const initialDecks = {
+export const initialDecks = {
   React: {
     title: 'React',
     questions: [
@@ -28,4 +28,4 @@ const initialDecks = {
 }
 
 
-AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(initialDecks));
+// AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify({}));
