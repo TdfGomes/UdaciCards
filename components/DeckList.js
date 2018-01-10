@@ -19,7 +19,9 @@ class DeckList extends Component{
     getDecks()
     .then(decks => dispatch( reciveDecks(decks) ))
     .then(() => this.setState(() => ({loaded:true})))
-  
+    
+    getDecks().then(r => console.log(r))
+    
   }
   
   _renderDeck = ({item}) => {

@@ -13,6 +13,8 @@ const decks = (state = {}, action) => {
         }
       }
     case ADD_CARD:
+      console.log(action.card)
+      
       return state
     default: 
       return state

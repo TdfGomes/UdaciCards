@@ -20,3 +20,15 @@ export function submitDeck(title){
   }))
 }
 
+export function submitCard(title,card){
+
+  return AsyncStorage.mergeItem(DECKS_STORAGE_KEY, JSON.stringify({
+    [title]:{
+      questions:[{
+        answer:card.answer,
+        question:card.question,
+      }]
+    }
+  }))
+}
+

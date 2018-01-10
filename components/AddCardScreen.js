@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { View, Text, StyleSheet, TextInput, Platform, Button, Dimensions, Modal, TouchableOpacity } from 'react-native'
 import { Entypo } from '@expo/vector-icons'
 import { teal, lightGray } from '../utils/colors'
+import { submitCard } from '../utils/api'
 
 const { width } = Dimensions.get('window')
 
@@ -18,7 +19,14 @@ class AddCardScreen extends Component {
   }
 
   _submitValues = () => {
-    alert('Submit')
+    const {navigation:{state:{params:{deckId}}}} = this.props
+    const { question, answer } = this.state
+    const questions = [{
+      question,
+      answer
+    }]
+    
+    submitCard(deckId,questions)
   }
 
   render(){
