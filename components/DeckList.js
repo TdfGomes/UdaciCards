@@ -10,10 +10,9 @@ import { AppLoading } from 'expo'
 class DeckList extends Component{
   state = {
     loaded:true,
-    decks:{}
   }
 
-  componentDidMount() {
+  componentWillMount() {
     const { dispatch } = this.props
     
     getDecks()

@@ -1,7 +1,18 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TextInput, Platform, Button, Dimensions, Modal, TouchableOpacity } from 'react-native'
+import { 
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  Platform,
+  Button,
+  Dimensions,
+  Modal,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  Switch } from 'react-native'
 import { Entypo } from '@expo/vector-icons'
-import { teal, lightGray } from '../utils/colors'
+import { teal, lightGray, white } from '../utils/colors'
 import { submitCard } from '../utils/api'
 
 const { width } = Dimensions.get('window')
@@ -10,6 +21,7 @@ class AddCardScreen extends Component {
   state = {
     question:'',
     answer:'',
+    bool:false,
     visible:false
   }
   _handleValue = (input) => (value) => {
@@ -20,19 +32,24 @@ class AddCardScreen extends Component {
 
   _submitValues = () => {
     const {navigation:{state:{params:{deckId}}}} = this.props
-    const { question, answer } = this.state
-    const questions = [{
+    const { question, answer, bool } = this.state
+
+    const questions = {
       question,
-      answer
-    }]
-    
+      answer,
+      bool
+    }
+    // console.log(questions)
     submitCard(deckId,questions)
   }
 
   render(){
-    const { question, answer } = this.state
+    const { question, answer, bool } = this.state
     return(
-      <View style={styles.container}>
+      <KeyboardAvoidingView 
+        style={styles.container}
+        behavior="padding"
+      >
         <View style={styles.form}>
           <View style={styles.inputWrapper}>
             <Text style={styles.label}>Add a new card question</Text>
@@ -62,6 +79,27 @@ class AddCardScreen extends Component {
               />
             </View>
           </View>
+          <View style={styles.inputWrapper}>
+            <Text style={styles.label}>{this.state.bool.toString()}</Text>
+            <View style={styles.inputContainer}>
+              <Switch
+                onTintColor={teal}
+                onValueChange={() => console.log('onchange')}
+                thumbTintColor={white}
+                tintColor={teal}
+                value={false}
+              />
+              {/* <TextInput
+                style={styles.input}
+                onChangeText={this._handleValue('bool')}
+                value={bool}
+                keyboardType='default'
+                autoCapitalize='sentences'
+                returnKeyType='done'
+                placeholder='True or False'
+              /> */}
+            </View>
+          </View>
           <View style={[styles.inputWrapper, {backgroundColor:teal, marginHorizontal:50}]}>
            <Button 
             onPress={this._submitValues}
@@ -72,7 +110,7 @@ class AddCardScreen extends Component {
            />
           </View>
         </View>
-        <Modal visible={this.state.visible} animationType='fade'>
+        <Modal visible={this.state.visible} animationType='fade' onRequestClose={() => console.log('close')}>
           <View style={styles.container}>
             <TouchableOpacity
               onPress={() => this.setState((prevState) => ({
@@ -90,7 +128,7 @@ class AddCardScreen extends Component {
             </Text>
           </View>
         </Modal>
-      </View>
+      </KeyboardAvoidingView>
     )
   }
 }
