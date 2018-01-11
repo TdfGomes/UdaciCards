@@ -42,7 +42,7 @@ class AddDeck extends Component{
             onSubmitEditing={this._submit}
             />
         </View>
-        <Modal visible={this.state.visible} animationType='fade'>
+        <Modal visible={this.state.visible} animationType='fade' onRequestClose={() => console.log('close')}>
           <View style={styles.container}>
             <TouchableOpacity 
               onPress={() => this.setState((prevState)=>({visible:!prevState.visible,title:''}))}

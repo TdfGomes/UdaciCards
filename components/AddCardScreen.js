@@ -14,6 +14,7 @@ import {
 import { Entypo } from '@expo/vector-icons'
 import { teal, lightGray, white } from '../utils/colors'
 import { submitCard } from '../utils/api'
+import { connect } from 'react-redux'
 
 const { width } = Dimensions.get('window')
 
@@ -39,8 +40,11 @@ class AddCardScreen extends Component {
       answer,
       bool
     }
-    // console.log(questions)
-    submitCard(deckId,questions)
+
+    if(question.length > 0 && answer.length > 0){
+
+      submitCard(deckId,questions)
+    }
   }
 
   render(){
@@ -84,20 +88,11 @@ class AddCardScreen extends Component {
             <View style={styles.inputContainer}>
               <Switch
                 onTintColor={teal}
-                onValueChange={() => console.log('onchange')}
+                onValueChange={(bool) => this.setState({bool}) }
                 thumbTintColor={white}
                 tintColor={teal}
-                value={false}
+                value={this.state.bool}
               />
-              {/* <TextInput
-                style={styles.input}
-                onChangeText={this._handleValue('bool')}
-                value={bool}
-                keyboardType='default'
-                autoCapitalize='sentences'
-                returnKeyType='done'
-                placeholder='True or False'
-              /> */}
             </View>
           </View>
           <View style={[styles.inputWrapper, {backgroundColor:teal, marginHorizontal:50}]}>
@@ -170,5 +165,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   }
 })
+
+
 
 export default AddCardScreen
