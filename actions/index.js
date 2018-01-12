@@ -12,7 +12,8 @@ export const addDeck = (deck) => ({
   deck
 })
 
-export const addCard = (card) => ({
+export const addCard = (deck,card) => ({
   type:ADD_CARD,
+  deck,
   card
 })

@@ -14,6 +14,7 @@ import {
 import { Entypo } from '@expo/vector-icons'
 import { teal, lightGray, white } from '../utils/colors'
 import { submitCard } from '../utils/api'
+import { addCard } from '../actions'
 import { connect } from 'react-redux'
 
 const { width } = Dimensions.get('window')
@@ -38,93 +39,70 @@ class AddCardScreen extends Component {
     const questions = {
       question,
       answer,
-      bool
+      bool,
     }
 
     if(question.length > 0 && answer.length > 0){
-
+      this.props.dispatch(addCard(deckId,questions));
       submitCard(deckId,questions)
+      this.setState({ visible: true })
     }
   }
 
   render(){
     const { question, answer, bool } = this.state
-    return(
-      <KeyboardAvoidingView 
-        style={styles.container}
-        behavior="padding"
-      >
+    return <KeyboardAvoidingView style={styles.container} behavior="padding">
         <View style={styles.form}>
           <View style={styles.inputWrapper}>
             <Text style={styles.label}>Add a new card question</Text>
             <View style={styles.inputContainer}>
-              <TextInput
-                style={styles.input}
-                onChangeText={this._handleValue('question')}
-                value={question}
-                keyboardType='default'
-                autoCapitalize='sentences'
-                returnKeyType='done'
-                placeholder='Question'
-              />
+              <TextInput style={styles.input} onChangeText={this._handleValue("question")} value={question} keyboardType="default" autoCapitalize="sentences" returnKeyType="done" placeholder="Question" />
             </View>
           </View>
           <View style={styles.inputWrapper}>
             <Text style={styles.label}>Add the answer to the question</Text>
             <View style={styles.inputContainer}>
-              <TextInput
-                style={styles.input}
-                onChangeText={this._handleValue('answer')}
-                value={answer}
-                keyboardType='default'
-                autoCapitalize='sentences'
-                returnKeyType='done'
-                placeholder='Answer'
-              />
+              <TextInput style={styles.input} onChangeText={this._handleValue("answer")} value={answer} keyboardType="default" autoCapitalize="sentences" returnKeyType="done" placeholder="Answer" />
             </View>
           </View>
           <View style={styles.inputWrapper}>
-            <Text style={styles.label}>{this.state.bool.toString()}</Text>
+            <Text style={styles.label}>
+              {bool
+                .toString()
+                .charAt(0)
+                .toUpperCase()
+                .concat(bool.toString().substr(1))}
+            </Text>
             <View style={styles.inputContainer}>
-              <Switch
-                onTintColor={teal}
-                onValueChange={(bool) => this.setState({bool}) }
-                thumbTintColor={white}
-                tintColor={teal}
-                value={this.state.bool}
-              />
+              <Switch onTintColor={teal} onValueChange={bool => this.setState(
+                    { bool }
+                  )} thumbTintColor={white} tintColor={teal} value={bool} />
             </View>
           </View>
-          <View style={[styles.inputWrapper, {backgroundColor:teal, marginHorizontal:50}]}>
-           <Button 
-            onPress={this._submitValues}
-            disabled={(question.length > 0 && answer.length > 0) ? false : true}
-            title='Submit'
-            accessibilityLabel='Submit Values'
-            color={lightGray}
-           />
+          <View style={[styles.inputWrapper, { backgroundColor: teal, marginHorizontal: 50 }]}>
+            <Button onPress={this._submitValues} disabled={question.length > 0 && answer.length > 0 ? false : true} title="Submit" accessibilityLabel="Submit Values" color={lightGray} />
           </View>
         </View>
-        <Modal visible={this.state.visible} animationType='fade' onRequestClose={() => console.log('close')}>
+        <Modal visible={this.state.visible} animationType="fade" onRequestClose={() => console.log("close")}>
           <View style={styles.container}>
-            <TouchableOpacity
-              onPress={() => this.setState((prevState) => ({
+            <TouchableOpacity onPress={() => this.setState(prevState => ({
                   visible: !prevState.visible,
-                  question: '',
-                  answer: ''
-                })
-              )}
-              style={styles.button}
-            >
-              <Text>Close </Text><Entypo name="cross" size={25} color={teal} />
+                  question: "",
+                  answer: ""
+                }))} style={styles.button}>
+              <Text>Close </Text>
+              <Entypo name="cross" size={25} color={teal} />
             </TouchableOpacity>
             <Text style={styles.modalText}>
-              You add new card in <Text style={{ fontWeight: '700', color: teal }}>{this.props.navigation.state.params.deckId}</Text> deck 
+              You add new card in <Text
+                style={{ fontWeight: "700", color: teal }}
+              >
+                {this.props.navigation.state.params.deckId}
+              </Text> deck
             </Text>
           </View>
         </Modal>
-      </KeyboardAvoidingView>
-    )
+      </KeyboardAvoidingView>;
   }
 }
 
@@ -168,4 +146,4 @@ const styles = StyleSheet.create({
 
 
 
-export default AddCardScreen
+export default connect()(AddCardScreen)

@@ -25,6 +25,7 @@ class SingleDeck extends Component {
           />
         </View>
         <Buttons
+          style={null}
           primary={teal}
           secondary={lightGray}
           primaryTitle='Add Cart'

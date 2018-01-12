@@ -12,7 +12,7 @@ export default class Buttons extends Component {
   }
   render(){
     return(
-      <View style={styles.buttonsWrapper}>
+      <View style={this.props.style === null ? styles.buttonsWrapper : this.props.style}>
         <TouchableOpacity onPress={this.onPressPrimaryBtn} style={[styles.button, { borderColor: this.props.primary, borderWidth: 1.3 }]}>
           <Text style={{ fontSize: 20, color: this.props.primary, textAlign: 'center' }}>{this.props.primaryTitle}</Text>
         </TouchableOpacity>
@@ -34,8 +34,7 @@ const styles = StyleSheet.create({
   },
   button: {
     width: 142,
-    paddingTop: 15,
-    paddingBottom: 15,
+    paddingVertical: 15,
     marginBottom: 15,
     borderRadius: 5,
   }

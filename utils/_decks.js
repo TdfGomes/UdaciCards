@@ -4,26 +4,29 @@ export const DECKS_STORAGE_KEY = 'UdaciCards:decks'
 
 export const initialDecks = {
   React: {
-    title: 'React',
+    title: "React", 
     questions: [
       {
-        question: 'The componentDidMount is a React lifecycle event?',
-        answer: 'yes'
+        question: "What is React?",
+        answer: "A library for managing user interfaces",
+        bool:true 
       },
       {
-        question: 'Can you make Ajax requests in React?',
-        answer: 'yes'
-      },
+        question: "Where do you make Ajax requests in React?",
+        answer: "The componentDidMount lifecycle event",
+        bool:true 
+      }
     ]
   },
   JavaScript: {
-    title: 'JavaScript',
+    title: "JavaScript",
     questions: [
       {
-        question: 'Javascript is NOT a OOP language?',
-        answer: 'no'
+        question: "What is a closure?",
+        answer: "The combination of a function and the lexical environment within which that function was declared." ,
+        bool:true
       }
     ]
   }
-}
+};
 

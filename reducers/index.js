@@ -13,9 +13,15 @@ const decks = (state = {}, action) => {
         }
       }
     case ADD_CARD:
-      console.log(action.card)
+      const questions = state[action.deck].questions.concat(action.card);
       
-      return state
+      return {
+        ...state,
+        [action.deck]:{
+          questions,
+        }
+      }
+      
     default: 
       return state
   }
