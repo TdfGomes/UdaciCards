@@ -14,10 +14,10 @@ const {width, height} = Dimensions.get('window')
 class QuizScreen extends Component {
   state = {
     currQ: 1,
-    _fadeIN : new Animated.Value(0),
-    _fadeOUT : new Animated.Value(1),
-    toValueIn:1,
-    toValueOut:0
+    _fadeIN: new Animated.Value(0),
+    _fadeOUT: new Animated.Value(1),
+    toValueIn: 1,
+    toValueOut: 0
   };
 
   componentWillMount() {
@@ -36,20 +36,21 @@ class QuizScreen extends Component {
       outputRange: ["180deg", "360deg"]
     });
     // /* Fade Animations */
-    // this._fadeIN = new Animated.Value(0);
-    // this._fadeOUT = new Animated.Value(1);
+    
     this.state._fadeIN.addListener(({ value }) => {
-      this.state.toValueIn = value;
-    });
-    this.state._fadeOUT.addListener(({ value }) => {
-      this.state.toValueOut = value;
+      this._value = value
     });
     
+    this.state._fadeOUT.addListener(({ value }) => {
+      this._value = value
+    });
   }
 
   componentDidMount() {
     const { dispatch } = this.props;
     getDecks().then(decks => dispatch(reciveDecks(decks)));
+     console.log("component OUT", this.state._fadeIN);
+     console.log("component IN", this.state._fadeOUT);
   }
 
   _correctAnswer = () => {
@@ -61,14 +62,20 @@ class QuizScreen extends Component {
         currQ: prevState.currQ + 1,
       }));
       this.scrollView.scrollTo({ x: width * this.state.currQ }, true);
-      console.log('OUT',this.state.toValueOut)
-      console.log('IN',this.state.toValueIn)
+      console.log("OUT", this.state._fadeIN);
+      console.log("IN", this.state._fadeOUT);
     }
   };
 
   _flipCard = () => {
-    Animated.timing(this.state._fadeIN, { toValue: this.state.toValueIn, duration: 300 }).start();
-    Animated.timing(this.state._fadeOUT, { toValue: this.state.toValueOut, duration: 300 }).start();
+    Animated.timing(this.state._fadeIN, {
+      toValue: this.state.toValueIn,
+      duration: 300
+    }).start();
+    Animated.timing(this.state._fadeOUT, {
+      toValue: this.state.toValueOut,
+      duration: 300
+    }).start();
     if (this.value >= 90) {
       Animated.spring(this.animatedValue, {
         toValue: 0,
@@ -82,8 +89,7 @@ class QuizScreen extends Component {
         tension: 10
       }).start();
     }
-  }
-  
+  };
 
   render() {
     const { navigation: { state: { params: { deckId } } } } = this.props;
@@ -96,8 +102,8 @@ class QuizScreen extends Component {
       transform: [{ rotateY: this.backInterpolate }]
     };
 
-    const visible = this.state._fadeIN
-    const hidden = this.state._fadeOUT
+    const visible = this.state._fadeIN;
+    const hidden = this.state._fadeOUT;
 
     return (
       <View style={[styles.container, { flex: 1 }]}>
@@ -123,30 +129,59 @@ class QuizScreen extends Component {
           }}
         >
           {currQuiz.questions.map((question, index) => {
-            return <View key={index} style={[styles.container, { flex: 1 }]}>
+            return (
+              <View key={index} style={[styles.container, { flex: 1 }]}>
                 <View>
                   <Animated.View style={[styles.flipCard, frontAnimatedStyle]}>
-                    <Text style={styles.questionText}>
-                      {question.question}
-                    </Text>
+                    <View style={styles.innerCard}>
+                      <Text style={styles.questionText}>{question.question}</Text>
+                    </View>
                   </Animated.View>
-                  <Animated.View style={[backAnimatedStyle, styles.flipCard, styles.flipCardBack]}>
-                    <Text style={styles.questionText}>
-                      {question.answer}
-                    </Text>
+                  <Animated.View style={[backAnimatedStyle,styles.flipCard,styles.flipCardBack]}>
+                    <View style={styles.innerCard}>
+                      <Text style={styles.questionText}>{question.answer}</Text>
+                    </View>
                   </Animated.View>
                 </View>
-                <View style={{justifyContent:'center',alignItems:'center'}}>
-                  <Animated.View style={{opacity:this.state.reverseAnim ? visible : hidden}}>
+                <View
+                  style={{ justifyContent: "center", alignItems: "center" }}
+                >
+                  <Animated.View
+                    style={{
+                      opacity:  hidden 
+                    }}
+                  >
                     <TouchableOpacity onPress={() => this._flipCard()}>
-                      <Text style={{marginBottom:5, fontWeight:'700', fontSize:16}}>Answer!</Text>
+                      <Text
+                        style={{
+                          marginBottom: 5,
+                          marginTop: 15,
+                          fontWeight: "700",
+                          fontSize: 17
+                        }}
+                      >
+                        Answer!
+                      </Text>
                     </TouchableOpacity>
                   </Animated.View>
-                  <Animated.View style={{opacity:this.state.reverseAnim ? hidden : visible}}>
-                    <Buttons style={styles.container} primary={teal} secondary={lightGray} primaryTitle="Incorrect" secondaryTitle="Correct" onPressPrimary={() => console.log("secondary")} onPressSecondary={this._correctAnswer} />
+                  <Animated.View
+                    style={{
+                      opacity: visible
+                    }}
+                  >
+                    <Buttons
+                      style={styles.container}
+                      primary={teal}
+                      secondary={lightGray}
+                      primaryTitle="Incorrect"
+                      secondaryTitle="Correct"
+                      onPressPrimary={() => console.log("secondary")}
+                      onPressSecondary={this._correctAnswer}
+                    />
                   </Animated.View>
                 </View>
-              </View>;
+              </View>
+            );
           })}
         </ScrollView>
       </View>
@@ -175,24 +210,36 @@ const styles = StyleSheet.create({
     color: gray,
     fontSize: 16
   },
-
   flipCard: {
     width,
     height: Math.ceil(height / 2),
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: white,
     backfaceVisibility: "hidden"
   },
   flipCardBack: {
-    backgroundColor: white,
     position: "absolute",
     top: 0
+  },
+  innerCard: {
+    backgroundColor: white,
+    borderRadius: 5,
+    width: Math.ceil(width - 20),
+    flex: 0.9,
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: "rgba(80, 80, 80, 0.34)",
+    shadowOffset: {
+      width: 0,
+      height: 0
+    },
+    shadowRadius: 2,
+    shadowOpacity: 0.5
   },
   questionText: {
     textAlign: "center",
     fontSize: 22,
-    paddingHorizontal:20
+    paddingHorizontal: 20
   }
 });
 
