@@ -22,8 +22,13 @@ class AddDeck extends Component{
       submitDeck(title)
       dispatch(addDeck(title))
       this.setState({visible:true})
-    }
-    
+    }  
+  }
+  _close = () => {
+    this.setState(prevState => ({
+      visible: !prevState.visible,
+      title: ""
+    }));
   }
 
   render(){
@@ -42,10 +47,10 @@ class AddDeck extends Component{
             onSubmitEditing={this._submit}
             />
         </View>
-        <Modal visible={this.state.visible} animationType='fade' onRequestClose={() => console.log('close')}>
+        <Modal visible={this.state.visible} animationType='fade' onRequestClose={this._close}>
           <View style={styles.container}>
             <TouchableOpacity 
-              onPress={() => this.setState((prevState)=>({visible:!prevState.visible,title:''}))}
+              onPress={this._close}
               style={styles.button}
             >
               <Text>Close </Text><Entypo name="cross" size={25} color={teal}/>

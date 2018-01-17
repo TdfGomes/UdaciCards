@@ -2,7 +2,7 @@
  * FLIP ANIMATION INSPIRED @ https://github.com/browniefed/examples/blob/animated_basic/flip/animatedbasic/index.ios.js
  */
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Dimensions, Animated } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Dimensions, Animated, Modal } from 'react-native'
 import Buttons from './Buttons'
 import { teal, lightGray, gray, white } from '../utils/colors';
 import { getDecks } from '../utils/api'
@@ -16,8 +16,8 @@ class QuizScreen extends Component {
     currQ: 1,
     _fadeIN: new Animated.Value(0),
     _fadeOUT: new Animated.Value(1),
-    toValueIn: 1,
-    toValueOut: 0
+    hideBtn: false,
+    visible:false
   };
 
   componentWillMount() {
@@ -35,47 +35,65 @@ class QuizScreen extends Component {
       inputRange: [0, 180],
       outputRange: ["180deg", "360deg"]
     });
-    // /* Fade Animations */
-    
+
+    /* Fade Animations */
     this.state._fadeIN.addListener(({ value }) => {
-      this._value = value
+      this._value = value;
     });
-    
+
     this.state._fadeOUT.addListener(({ value }) => {
-      this._value = value
+      this._value = value;
     });
   }
 
   componentDidMount() {
     const { dispatch } = this.props;
     getDecks().then(decks => dispatch(reciveDecks(decks)));
-     console.log("component OUT", this.state._fadeIN);
-     console.log("component IN", this.state._fadeOUT);
+    
   }
 
-  _correctAnswer = () => {
+  _correctAnswer = (currAnswer) => (ev) => {
     const { navigation: { state: { params: { deckId } } } } = this.props;
     const currQuiz = this.props.decks[deckId];
 
-    if (this.state.currQ < currQuiz.questions.length) {
+    if (this.state.currQ < currQuiz.questions.length && currAnswer) {
       this.setState(prevState => ({
         currQ: prevState.currQ + 1,
+        hideBtn: false
       }));
       this.scrollView.scrollTo({ x: width * this.state.currQ }, true);
-      console.log("OUT", this.state._fadeIN);
-      console.log("IN", this.state._fadeOUT);
+
+      this._restartAnimation();
+    }
+    else {
+      console.log('COMPLETE')
     }
   };
 
+  _inCorrectAnswer = (currAnswer) => (ev) => {
+
+  }
+
+  _restartAnimation = () => {
+    this.state._fadeIN.setValue(0);
+    this.state._fadeOUT.setValue(1);
+  };
+
   _flipCard = () => {
-    Animated.timing(this.state._fadeIN, {
-      toValue: this.state.toValueIn,
-      duration: 300
-    }).start();
-    Animated.timing(this.state._fadeOUT, {
-      toValue: this.state.toValueOut,
-      duration: 300
-    }).start();
+
+    Animated.sequence([
+      Animated.timing(this.state._fadeIN, {
+        toValue: 1,
+        duration: 300
+      }),
+      Animated.timing(this.state._fadeOUT, {
+        toValue: 0,
+        duration: 300
+      })
+    ]).start()
+
+    this.setState({ hideBtn: true });
+
     if (this.value >= 90) {
       Animated.spring(this.animatedValue, {
         toValue: 0,
@@ -90,6 +108,11 @@ class QuizScreen extends Component {
       }).start();
     }
   };
+  _close = () => {
+    this.setState((prevState) => {
+      visible:!prevState.visible
+    })
+  }
 
   render() {
     const { navigation: { state: { params: { deckId } } } } = this.props;
@@ -105,87 +128,58 @@ class QuizScreen extends Component {
     const visible = this.state._fadeIN;
     const hidden = this.state._fadeOUT;
 
-    return (
-      <View style={[styles.container, { flex: 1 }]}>
+    return <View style={[styles.container, { flex: 1 }]}>
         <View style={styles.questionsCounter}>
-          <Text style={styles.questionsNumber}>{`${this.state.currQ}/${
-            currQuiz.questions.length
-          }`}</Text>
+          <Text style={styles.questionsNumber}>{`${this.state.currQ}/${currQuiz.questions.length}`}</Text>
         </View>
-        <ScrollView
-          ref={scrollView => {
+        <ScrollView ref={scrollView => {
             this.scrollView = scrollView;
-          }}
-          horizontal
-          decelerationRate={0}
-          snapToInterval={width}
-          snapToAlignment={"center"}
-          scrollEnabled={false}
-          contentInset={{
-            top: 0,
-            left: 30,
-            bottom: 0,
-            right: 30
-          }}
-        >
+          }} horizontal decelerationRate={0} snapToInterval={width} snapToAlignment={"center"} scrollEnabled={false} onMomentumScrollEnd={this._handleOnscroll} contentInset={{ top: 0, left: 30, bottom: 0, right: 30 }}>
           {currQuiz.questions.map((question, index) => {
-            return (
-              <View key={index} style={[styles.container, { flex: 1 }]}>
+            return <View key={index} style={[styles.container, { flex: 1 }]}>
                 <View>
                   <Animated.View style={[styles.flipCard, frontAnimatedStyle]}>
                     <View style={styles.innerCard}>
-                      <Text style={styles.questionText}>{question.question}</Text>
+                      <Text style={styles.questionText}>
+                        {question.question}
+                      </Text>
                     </View>
                   </Animated.View>
-                  <Animated.View style={[backAnimatedStyle,styles.flipCard,styles.flipCardBack]}>
+                  <Animated.View style={[backAnimatedStyle, styles.flipCard, styles.flipCardBack]}>
                     <View style={styles.innerCard}>
-                      <Text style={styles.questionText}>{question.answer}</Text>
+                      <Text style={styles.questionText}>
+                        {question.answer}
+                      </Text>
                     </View>
                   </Animated.View>
                 </View>
-                <View
-                  style={{ justifyContent: "center", alignItems: "center" }}
-                >
-                  <Animated.View
-                    style={{
-                      opacity:  hidden 
-                    }}
-                  >
+                <View style={{ justifyContent: "center", alignItems: "center" }}>
+                  <Animated.View style={{ opacity: hidden }}>
                     <TouchableOpacity onPress={() => this._flipCard()}>
                       <Text
                         style={{
                           marginBottom: 5,
                           marginTop: 15,
                           fontWeight: "700",
-                          fontSize: 17
+                          fontSize: 17,
+                          display: this.state.hideBtn ? "none" : "flex"
                         }}
                       >
                         Answer!
                       </Text>
                     </TouchableOpacity>
                   </Animated.View>
-                  <Animated.View
-                    style={{
-                      opacity: visible
-                    }}
-                  >
-                    <Buttons
-                      style={styles.container}
-                      primary={teal}
-                      secondary={lightGray}
-                      primaryTitle="Incorrect"
-                      secondaryTitle="Correct"
-                      onPressPrimary={() => console.log("secondary")}
-                      onPressSecondary={this._correctAnswer}
-                    />
+                  <Animated.View style={{ opacity: visible }}>
+                    <Buttons style={styles.container} primary={teal} secondary={lightGray} primaryTitle="Incorrect" secondaryTitle="Correct" onPressPrimary={() => console.log("secondary")} onPressSecondary={this._correctAnswer(question.bool)} />
                   </Animated.View>
                 </View>
-              </View>
-            );
+              </View>;
           })}
         </ScrollView>
-      </View>
-    );
+        <Modal visible={this.state.visible} animationType="slide" onRequestClose={this._close}>
+          <Text>Try Again!</Text>
+        </Modal>
+      </View>;
   }
 }
 

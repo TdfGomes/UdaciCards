@@ -49,6 +49,15 @@ class AddCardScreen extends Component {
     }
   }
 
+  _close = () => {
+    this.setState(prevState => ({
+      visible: !prevState.visible,
+      question: "",
+      answer: "",
+      bool: false
+    }));
+  };
+
   render(){
     const { question, answer, bool } = this.state
     return <KeyboardAvoidingView style={styles.container} behavior="padding">
@@ -83,13 +92,9 @@ class AddCardScreen extends Component {
             <Button onPress={this._submitValues} disabled={question.length > 0 && answer.length > 0 ? false : true} title="Submit" accessibilityLabel="Submit Values" color={lightGray} />
           </View>
         </View>
-        <Modal visible={this.state.visible} animationType="fade" onRequestClose={() => console.log("close")}>
+        <Modal visible={this.state.visible} animationType="fade" onRequestClose={this._close}>
           <View style={styles.container}>
-            <TouchableOpacity onPress={() => this.setState(prevState => ({
-                  visible: !prevState.visible,
-                  question: "",
-                  answer: ""
-                }))} style={styles.button}>
+            <TouchableOpacity onPress={this._close} style={styles.button}>
               <Text>Close </Text>
               <Entypo name="cross" size={25} color={teal} />
             </TouchableOpacity>

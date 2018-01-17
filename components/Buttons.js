@@ -3,12 +3,12 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 
 
 export default class Buttons extends Component {
-  onPressPrimaryBtn = (i) => {
+  onPressPrimaryBtn = (ev) => {
     // this.props.navigation.navigate('Quiz', { deckId: this.props.deckId })
-    this.props.onPressPrimary()
+    this.props.onPressPrimary(ev)
   }
-  onPressSecondaryBtn = () => {
-    this.props.onPressSecondary()
+  onPressSecondaryBtn = (ev) => {
+    this.props.onPressSecondary(ev)
   }
   render(){
     return(
