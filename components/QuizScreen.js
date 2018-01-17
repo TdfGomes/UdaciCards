@@ -14,6 +14,8 @@ const {width, height} = Dimensions.get('window')
 class QuizScreen extends Component {
   state = {
     currQ: 1,
+    endDeck: false,
+    score:0,
     _fadeIN: new Animated.Value(0),
     _fadeOUT: new Animated.Value(1),
     hideBtn: false,
@@ -52,11 +54,11 @@ class QuizScreen extends Component {
     
   }
 
-  _correctAnswer = (currAnswer) => (ev) => {
+  _gotoNextCard = () => {
     const { navigation: { state: { params: { deckId } } } } = this.props;
     const currQuiz = this.props.decks[deckId];
 
-    if (this.state.currQ < currQuiz.questions.length && currAnswer) {
+    if (this.state.currQ < currQuiz.questions.length) {
       this.setState(prevState => ({
         currQ: prevState.currQ + 1,
         hideBtn: false
@@ -64,14 +66,43 @@ class QuizScreen extends Component {
       this.scrollView.scrollTo({ x: width * this.state.currQ }, true);
 
       this._restartAnimation();
+    } else {
+      this._endDeck();
+    }
+  }
+  _correctAnswer = (currAnswer) => (ev) => {
+    
+    if( currAnswer ){
+      this.setState(prevState => ({
+          score: prevState.score + 1
+        }),
+        () => this._gotoNextCard()
+      );
     }
     else {
-      console.log('COMPLETE')
+      this._gotoNextCard();
     }
   };
 
-  _inCorrectAnswer = (currAnswer) => (ev) => {
+  _incorrectAnswer = (currAnswer) => (ev) => {
+    
+    if( ! currAnswer ){
+      this.setState(prevState => ({
+          score: prevState.score + 1
+        }),
+        () => this._gotoNextCard()
+      );
+    }
+    else {
+      this._gotoNextCard();
+    }
+  };
 
+  _endDeck = () => {
+    this.setState((prevState) => ({
+      visible: !prevState.visible,
+      endDeck: !prevState.endDeck
+    }))
   }
 
   _restartAnimation = () => {
@@ -100,18 +131,29 @@ class QuizScreen extends Component {
         friction: 8,
         tension: 10
       }).start();
-    } else {
-      Animated.spring(this.animatedValue, {
-        toValue: 180,
-        friction: 8,
-        tension: 10
-      }).start();
-    }
+    } 
   };
-  _close = () => {
-    this.setState((prevState) => {
-      visible:!prevState.visible
+  _goHome = () => {
+     this._close()
+     this.props.navigation.navigate('Home')
+  }
+  _resetDeck = () => {
+
+    this._close()
+    this._restartAnimation()
+
+    this.setState({
+      currQ: 1,
+      endDeck: false,
+      score:0,
+      hideBtn:false
     })
+
+  }
+  _close = () => {
+    this.setState((prevState) => ({
+      visible: !prevState.visible
+    }))
   }
 
   render() {
@@ -162,7 +204,9 @@ class QuizScreen extends Component {
                           marginTop: 15,
                           fontWeight: "700",
                           fontSize: 17,
-                          display: this.state.hideBtn ? "none" : "flex"
+                          display: this.state.hideBtn
+                            ? "none"
+                            : "flex"
                         }}
                       >
                         Answer!
@@ -170,14 +214,19 @@ class QuizScreen extends Component {
                     </TouchableOpacity>
                   </Animated.View>
                   <Animated.View style={{ opacity: visible }}>
-                    <Buttons style={styles.container} primary={teal} secondary={lightGray} primaryTitle="Incorrect" secondaryTitle="Correct" onPressPrimary={() => console.log("secondary")} onPressSecondary={this._correctAnswer(question.bool)} />
+                    <Buttons style={styles.container} primary={teal} secondary={lightGray} primaryTitle="Incorrect" secondaryTitle="Correct" onPressPrimary={this._incorrectAnswer(question.bool)} onPressSecondary={this._correctAnswer(question.bool)} />
                   </Animated.View>
                 </View>
               </View>;
           })}
         </ScrollView>
         <Modal visible={this.state.visible} animationType="slide" onRequestClose={this._close}>
-          <Text>Try Again!</Text>
+          <View style={styles.scrollContainer}>
+            <Text style={[styles.questionText, {marginBottom:100}]}>
+              You get <Text style={{fontWeight:'700',color:teal}}>{this.state.score}</Text> from <Text style={{fontWeight:'700',color:teal}}>{currQuiz.questions.length}</Text>
+            </Text>
+            <Buttons style={styles.container} primary={teal} secondary={lightGray} primaryTitle="Go Home" secondaryTitle="Repeat" onPressPrimary={() => this._goHome()} onPressSecondary={() => this._resetDeck()} />
+          </View>
         </Modal>
       </View>;
   }

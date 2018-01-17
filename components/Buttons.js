@@ -5,9 +5,10 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 export default class Buttons extends Component {
   onPressPrimaryBtn = (ev) => {
     // this.props.navigation.navigate('Quiz', { deckId: this.props.deckId })
-    this.props.onPressPrimary(ev)
+    this.props.onPressPrimary(ev);
   }
   onPressSecondaryBtn = (ev) => {
+    
     this.props.onPressSecondary(ev)
   }
   render(){
