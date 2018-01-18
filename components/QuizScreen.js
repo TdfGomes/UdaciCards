@@ -2,7 +2,7 @@
  * FLIP ANIMATION INSPIRED @ https://github.com/browniefed/examples/blob/animated_basic/flip/animatedbasic/index.ios.js
  */
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Dimensions, Animated, Modal } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Dimensions, Animated, Modal, Platform } from 'react-native'
 import Buttons from './Buttons'
 import { teal, lightGray, gray, white } from '../utils/colors';
 import { getDecks } from '../utils/api'
@@ -124,14 +124,22 @@ class QuizScreen extends Component {
     ]).start()
 
     this.setState({ hideBtn: true });
-
-    if (this.value >= 90) {
-      Animated.spring(this.animatedValue, {
-        toValue: 0,
-        friction: 8,
-        tension: 10
-      }).start();
-    } 
+    if(Platform.OS === 'ios'){
+      if (this.value >= 90) {
+        Animated.spring(this.animatedValue, {
+          toValue: 0,
+          friction: 8,
+          tension: 10
+        }).start();
+      }
+      else{
+        Animated.spring(this.animatedValue, {
+          toValue: 180,
+          friction: 8,
+          tension: 10
+        }).start();
+      }
+    }
   };
   _goHome = () => {
      this._close()
@@ -179,15 +187,15 @@ class QuizScreen extends Component {
           }} horizontal decelerationRate={0} snapToInterval={width} snapToAlignment={"center"} scrollEnabled={false} onMomentumScrollEnd={this._handleOnscroll} contentInset={{ top: 0, left: 30, bottom: 0, right: 30 }}>
           {currQuiz.questions.map((question, index) => {
             return <View key={index} style={[styles.container, { flex: 1 }]}>
-                <View>
-                  <Animated.View style={[styles.flipCard, frontAnimatedStyle]}>
+                <View style={{position:'relative'}}>
+                  <Animated.View style={Platform.OS === 'ios' ? [styles.flipCard, frontAnimatedStyle] : [styles.flipCardAndroid, {opacity: hidden}]}>
                     <View style={styles.innerCard}>
                       <Text style={styles.questionText}>
                         {question.question}
                       </Text>
                     </View>
                   </Animated.View>
-                  <Animated.View style={[backAnimatedStyle, styles.flipCard, styles.flipCardBack]}>
+                  <Animated.View style={Platform === 'ios' ? [backAnimatedStyle, styles.flipCard, styles.flipCardBack] : [styles.flipCardAndroid, styles.flipCardBack, {opacity: visible}]}>
                     <View style={styles.innerCard}>
                       <Text style={styles.questionText}>
                         {question.answer}
@@ -214,7 +222,7 @@ class QuizScreen extends Component {
                     </TouchableOpacity>
                   </Animated.View>
                   <Animated.View style={{ opacity: visible }}>
-                    <Buttons style={styles.container} primary={teal} secondary={lightGray} primaryTitle="Incorrect" secondaryTitle="Correct" onPressPrimary={this._incorrectAnswer(question.bool)} onPressSecondary={this._correctAnswer(question.bool)} />
+                    <Buttons style={[styles.container, {display: this.state.hideBtn ? "flex" : "none"}]} primary={teal} secondary={lightGray} primaryTitle="Incorrect" secondaryTitle="Correct" onPressPrimary={this._incorrectAnswer(question.bool)} onPressSecondary={this._correctAnswer(question.bool)} />
                   </Animated.View>
                 </View>
               </View>;
@@ -258,11 +266,21 @@ const styles = StyleSheet.create({
     height: Math.ceil(height / 2),
     alignItems: "center",
     justifyContent: "center",
-    backfaceVisibility: "hidden"
+    backfaceVisibility: "hidden" 
   },
   flipCardBack: {
     position: "absolute",
     top: 0
+  },
+  flipCardAndroid:{
+    width,
+    height: Math.ceil(height / 2),
+    alignItems: "center",
+    justifyContent: "center",
+    
+  },
+  backCardAndroid:{
+    position:'absolute',
   },
   innerCard: {
     backgroundColor: white,

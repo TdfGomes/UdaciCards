@@ -4,7 +4,7 @@ import Deck from './Deck'
 import { getDecks } from '../utils/api'
 import { connect } from 'react-redux'
 import { reciveDecks } from '../actions'
-import { AppLoading } from 'expo'
+import { AppLoading, Permissions, Constants } from 'expo'
 
 
 class DeckList extends Component{
@@ -12,9 +12,15 @@ class DeckList extends Component{
     loaded:true,
   }
 
-  componentWillMount() {
+  async componentWillMount() {
     const { dispatch } = this.props
+    let result = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+    console.log(Constants)
+    console.log(result)
     
+    // if (Constants.isDevice && result.status === "granted") {
+    // }
+
     getDecks()
     .then(decks => dispatch( reciveDecks(decks) ))
     .then(() => this.setState(() => ({loaded:true})))
