@@ -75,17 +75,19 @@ export function setLocalNotification(){
     if(data === null){
       Permissions.askAsync(Permissions.NOTIFICATIONS)
         .then(({status}) => {
-          if(status === 'granted' && Constants.isDevice){
+          if(status === 'granted'){
             Notifications.cancelAllScheduledNotificationsAsync();
             
             let time = new Date()
-            time.setSeconds(time.getSeconds() + 10)
+            time.setDate(time.getDate() + 1)
+            time.setHours(13)
+            time.setMinutes(30)
 
             Notifications.scheduleLocalNotificationAsync(
               createNotification(),
               {
                 time,
-                repeat:'minute'
+                repeat:'day'
               }
             )
             AsyncStorage.setItem(LOCAL_NOTIFICATIONS,JSON.stringify(true))
