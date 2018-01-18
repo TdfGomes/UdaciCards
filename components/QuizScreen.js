@@ -187,42 +187,49 @@ class QuizScreen extends Component {
           }} horizontal decelerationRate={0} snapToInterval={width} snapToAlignment={"center"} scrollEnabled={false} onMomentumScrollEnd={this._handleOnscroll} contentInset={{ top: 0, left: 30, bottom: 0, right: 30 }}>
           {currQuiz.questions.map((question, index) => {
             return <View key={index} style={[styles.container, { flex: 1 }]}>
-                <View style={{position:'relative'}}>
-                  <Animated.View style={Platform.OS === 'ios' ? [styles.flipCard, frontAnimatedStyle] : [styles.flipCardAndroid, {opacity: hidden}]}>
-                    <View style={styles.innerCard}>
-                      <Text style={styles.questionText}>
-                        {question.question}
-                      </Text>
-                    </View>
-                  </Animated.View>
-                  <Animated.View style={Platform === 'ios' ? [backAnimatedStyle, styles.flipCard, styles.flipCardBack] : [styles.flipCardAndroid, styles.flipCardBack, {opacity: visible}]}>
-                    <View style={styles.innerCard}>
-                      <Text style={styles.questionText}>
-                        {question.answer}
-                      </Text>
-                    </View>
-                  </Animated.View>
+                <View>
+                  {Platform.OS === "ios" ? <View>
+                      <Animated.View style={[styles.flipCard, frontAnimatedStyle]}>
+                        <View style={styles.innerCard}>
+                          <Text style={styles.questionText}>
+                            {question.question}
+                          </Text>
+                        </View>
+                      </Animated.View>
+                      <Animated.View style={[backAnimatedStyle, styles.flipCard, styles.flipCardBack]}>
+                        <View style={styles.innerCard}>
+                          <Text style={styles.questionText}>
+                            {question.answer}
+                          </Text>
+                        </View>
+                      </Animated.View>
+                    </View> : <View>
+                      <Animated.View style={[styles.flipCardAndroid, { opacity: hidden }]}>
+                        <View style={styles.innerCard}>
+                          <Text style={styles.questionText}>
+                            {question.question}
+                          </Text>
+                        </View>
+                      </Animated.View>
+                      <Animated.View style={[styles.flipCardAndroid, styles.flipCardBack, { opacity: visible }]}>
+                        <View style={styles.innerCard}>
+                          <Text style={styles.questionText}>
+                            {question.answer}
+                          </Text>
+                        </View>
+                      </Animated.View>
+                    </View>}
                 </View>
                 <View style={{ justifyContent: "center", alignItems: "center" }}>
                   <Animated.View style={{ opacity: hidden }}>
                     <TouchableOpacity onPress={() => this._flipCard()}>
-                      <Text
-                        style={{
-                          marginBottom: 5,
-                          marginTop: 15,
-                          fontWeight: "700",
-                          fontSize: 17,
-                          display: this.state.hideBtn
-                            ? "none"
-                            : "flex"
-                        }}
-                      >
+                      <Text style={{ marginBottom: 5, marginTop: 15, fontWeight: "700", fontSize: 17, display: this.state.hideBtn ? "none" : "flex" }}>
                         Answer!
                       </Text>
                     </TouchableOpacity>
                   </Animated.View>
                   <Animated.View style={{ opacity: visible }}>
-                    <Buttons style={[styles.container, {display: this.state.hideBtn ? "flex" : "none"}]} primary={teal} secondary={lightGray} primaryTitle="Incorrect" secondaryTitle="Correct" onPressPrimary={this._incorrectAnswer(question.bool)} onPressSecondary={this._correctAnswer(question.bool)} />
+                    <Buttons style={[styles.container, { display: this.state.hideBtn ? "flex" : "none" }]} primary={teal} secondary={lightGray} primaryTitle="Incorrect" secondaryTitle="Correct" onPressPrimary={this._incorrectAnswer(question.bool)} onPressSecondary={this._correctAnswer(question.bool)} />
                   </Animated.View>
                 </View>
               </View>;
