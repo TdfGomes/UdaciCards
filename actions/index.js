@@ -1,19 +1,17 @@
-export const RECIVE_DECKS = 'RECIVE_DECKS'
-export const ADD_DECK = 'ADD_DECK'
-export const ADD_CARD = 'ADD_CARD'
+import * as actionTypes from './actionTypes'
 
 export const reciveDecks = (decks) => ({
-  type:RECIVE_DECKS,
+  type:actionTypes.RECIVE_DECKS,
   decks
 })
 
 export const addDeck = (deck) => ({
-  type:ADD_DECK,
+  type:actionTypes.ADD_DECK,
   deck
 })
 
 export const addCard = (deck,card) => ({
-  type:ADD_CARD,
+  type:actionTypes.ADD_CARD,
   deck,
   card
 })

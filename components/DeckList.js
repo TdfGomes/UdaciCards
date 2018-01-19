@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, FlatList, AsyncStorage } from 'react-native'
+import { View, Text, FlatList, AsyncStorage } from 'react-native'
 import Deck from './Deck'
 import { getDecks } from '../utils/api'
 import { connect } from 'react-redux'
@@ -9,16 +9,14 @@ import { AppLoading } from 'expo'
 
 class DeckList extends Component{
   state = {
-    loaded:true,
+    loaded:false,
   }
 
   componentWillMount() {
-    const { dispatch } = this.props
+    const { reciveDecks } = this.props;
 
-    getDecks()
-    .then(decks => dispatch( reciveDecks(decks) ))
-    .then(() => this.setState(() => ({loaded:true})))
-    
+    getDecks().then(decks => reciveDecks(decks))
+      .then(() => this.setState(() => ({loaded:true})))
   }
   
   _renderDeck = ({item}) => {
@@ -51,17 +49,9 @@ class DeckList extends Component{
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex:1,
-    justifyContent:'center',
-    alignItems:'center'
-  },
-})
-
 const mapToStateProps = (decks) => ({
   decks,
 })
 
-export default connect(mapToStateProps)(DeckList)
+export default connect(mapToStateProps, { reciveDecks })(DeckList);
 

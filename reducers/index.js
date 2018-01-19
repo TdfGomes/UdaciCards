@@ -1,10 +1,10 @@
-import { ADD_DECK, ADD_CARD, RECIVE_DECKS } from '../actions'
+import * as actionTypes from "../actions/actionTypes";
 
 const decks = (state = {}, action) => {
   switch(action.type){
-    case RECIVE_DECKS:
+    case actionTypes.RECIVE_DECKS:
       return action.decks
-    case ADD_DECK:
+    case actionTypes.ADD_DECK:
       return{
         ...state,
         [action.deck]: {
@@ -12,7 +12,7 @@ const decks = (state = {}, action) => {
           questions: []
         }
       }
-    case ADD_CARD:
+    case actionTypes.ADD_CARD:
       const questions = state[action.deck].questions.concat(action.card);
       
       return {

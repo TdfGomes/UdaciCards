@@ -4,7 +4,7 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Dimensions, Animated, Modal, Platform } from 'react-native'
 import Buttons from './Buttons'
-import { teal, lightGray, gray, white } from '../utils/colors';
+import { teal, lightGray, gray, white, mainStyles } from "../utils/styles";
 import { getDecks } from '../utils/api'
 import { connect } from 'react-redux'
 import { reciveDecks } from '../actions'
@@ -49,8 +49,8 @@ class QuizScreen extends Component {
   }
 
   componentDidMount() {
-    const { dispatch } = this.props;
-    getDecks().then(decks => dispatch(reciveDecks(decks)));
+    const { reciveDecks } = this.props;
+    getDecks().then(decks => reciveDecks(decks));
     
   }
 
@@ -175,7 +175,7 @@ class QuizScreen extends Component {
     const visible = this.state._fadeIN;
     const hidden = this.state._fadeOUT;
 
-    return <View style={[styles.container, { flex: 1 }]}>
+    return <View style={[styles.center, { flex: 1 }]}>
         <View style={styles.questionsCounter}>
           <Text style={styles.questionsNumber}>{`${this.state.currQ}/${currQuiz.questions.length}`}</Text>
         </View>
@@ -183,7 +183,7 @@ class QuizScreen extends Component {
             this.scrollView = scrollView;
           }} horizontal decelerationRate={0} snapToInterval={width} snapToAlignment={"center"} scrollEnabled={false} onMomentumScrollEnd={this._handleOnscroll} contentInset={{ top: 0, left: 30, bottom: 0, right: 30 }}>
           {currQuiz.questions.map((question, index) => {
-            return <View key={index} style={[styles.container, { flex: 1 }]}>
+            return <View key={index} style={[styles.center, { flex: 1 }]}>
                 <View>
                   {Platform.OS === "ios" ? <View>
                       <Animated.View style={[styles.flipCard, frontAnimatedStyle]}>
@@ -226,18 +226,18 @@ class QuizScreen extends Component {
                     </TouchableOpacity>
                   </Animated.View>
                   <Animated.View style={{ opacity: visible }}>
-                    <Buttons style={[styles.container, { display: this.state.hideBtn ? "flex" : "none" }]} primary={teal} secondary={lightGray} primaryTitle="Incorrect" secondaryTitle="Correct" onPressPrimary={this._incorrectAnswer(question.bool)} onPressSecondary={this._correctAnswer(question.bool)} />
+                    <Buttons style={[styles.center, { display: this.state.hideBtn ? "flex" : "none" }]} primary={teal} secondary={lightGray} primaryTitle="Incorrect" secondaryTitle="Correct" onPressPrimary={this._incorrectAnswer(question.bool)} onPressSecondary={this._correctAnswer(question.bool)} />
                   </Animated.View>
                 </View>
               </View>;
           })}
         </ScrollView>
         <Modal visible={this.state.visible} animationType="slide" onRequestClose={this._close}>
-          <View style={styles.scrollContainer}>
+          <View style={mainStyles.container}>
             <Text style={[styles.questionText, {marginBottom:100}]}>
               You get <Text style={{fontWeight:'700',color:teal}}>{this.state.score}</Text> from <Text style={{fontWeight:'700',color:teal}}>{currQuiz.questions.length}</Text>
             </Text>
-            <Buttons style={styles.container} primary={teal} secondary={lightGray} primaryTitle="Repeat" secondaryTitle="Return to Deck" onPressPrimary={() => this._resetDeck()} onPressSecondary={() => this.props.navigation.goBack(null)} />
+            <Buttons style={styles.center} primary={teal} secondary={lightGray} primaryTitle="Repeat" secondaryTitle="Return to Deck" onPressPrimary={() => this._resetDeck()} onPressSecondary={() => this.props.navigation.goBack(null)} />
           </View>
         </Modal>
       </View>;
@@ -245,12 +245,7 @@ class QuizScreen extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  scrollContainer: {
-    flex: 1,
+  center: {
     justifyContent: "center",
     alignItems: "center"
   },
@@ -311,4 +306,4 @@ const styles = StyleSheet.create({
 const mapStateToProps = (decks) => ({
   decks,
 })
-export default connect(mapStateToProps)(QuizScreen)
+export default connect(mapStateToProps, { reciveDecks })(QuizScreen);

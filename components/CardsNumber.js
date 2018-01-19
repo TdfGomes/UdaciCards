@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
-import { teal } from '../utils/colors'
+import { teal } from '../utils/styles'
 
 const CardsNumber = (props) => (
   <View style={styles.cardsContainer}>

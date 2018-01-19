@@ -10,7 +10,7 @@ import QuizScreen from './components/QuizScreen'
 import AddCardScreen from './components/AddCardScreen'
 import { TabNavigator, StackNavigator } from 'react-navigation'
 import { Ionicons } from '@expo/vector-icons'
-import { teal, lightGray, lime } from './utils/colors'
+import { teal, lightGray, lime } from './utils/styles'
 import { setLocalNotification } from "./utils/api";
 import AppStatusBar from './components/AppStatusBar'
 

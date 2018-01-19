@@ -5,13 +5,13 @@ import Buttons from './Buttons'
 import { getDecks } from '../utils/api'
 import { connect } from 'react-redux'
 import { reciveDecks } from '../actions'
-import { teal, lightGray } from '../utils/colors';
+import { teal, lightGray } from '../utils/styles';
 
 class SingleDeck extends Component {
   
   componentDidMount() {
-    const { dispatch } = this.props
-    getDecks().then(decks => dispatch(reciveDecks(decks)))
+    const { reciveDecks } = this.props;
+    getDecks().then(decks => reciveDecks(decks))
   }
 
   render(){
@@ -62,4 +62,4 @@ const styles = StyleSheet.create({
 const mapStateToProps = (decks) => ({
   decks,
 })
-export default connect(mapStateToProps)(SingleDeck)
+export default connect(mapStateToProps, { reciveDecks })(SingleDeck);

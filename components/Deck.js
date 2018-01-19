@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, Platform, TouchableOpacity } from 'react-native'
-import { teal, gray, white, lightGray } from '../utils/colors';
+import { teal, gray, white, lightGray } from '../utils/styles';
 import CardsNumber from './CardsNumber';
 
 const Deck = (props) => (

@@ -2,22 +2,18 @@ import React, { Component } from 'react'
 import { 
   View,
   Text,
-  StyleSheet,
   TextInput,
   Platform,
   Button,
-  Dimensions,
   Modal,
   TouchableOpacity,
   KeyboardAvoidingView,
   Switch } from 'react-native'
 import { Entypo } from '@expo/vector-icons'
-import { teal, lightGray, white } from '../utils/colors'
+import { teal, lightGray, white, mainStyles } from '../utils/styles'
 import { submitCard } from '../utils/api'
 import { addCard } from '../actions'
 import { connect } from 'react-redux'
-
-const { width } = Dimensions.get('window')
 
 class AddCardScreen extends Component {
   state = {
@@ -63,41 +59,41 @@ class AddCardScreen extends Component {
 
   render(){
     const { question, answer, bool } = this.state
-    return <KeyboardAvoidingView style={styles.container} behavior="padding">
+    return <KeyboardAvoidingView style={mainStyles.container} behavior="padding">
         <View style={styles.form}>
-          <View style={styles.inputWrapper}>
-            <Text style={styles.label}>Add a new card question</Text>
-            <View style={styles.inputContainer}>
-              <TextInput style={styles.input} onChangeText={this._handleValue("question")} value={question} keyboardType="default" autoCapitalize="sentences" returnKeyType="done" placeholder="Question" />
+          <View style={{ marginBottom:30}}>
+            <Text style={mainStyles.label}>Add a new card question</Text>
+            <View style={mainStyles.inputContainer}>
+              <TextInput style={mainStyles.input} onChangeText={this._handleValue("question")} value={question} keyboardType="default" autoCapitalize="sentences" returnKeyType="done" placeholder="Question" />
             </View>
           </View>
-          <View style={styles.inputWrapper}>
-            <Text style={styles.label}>Add the answer to the question</Text>
-            <View style={styles.inputContainer}>
-              <TextInput style={styles.input} onChangeText={this._handleValue("answer")} value={answer} keyboardType="default" autoCapitalize="sentences" returnKeyType="done" placeholder="Answer" />
+          <View style={{ marginBottom:30}}>
+            <Text style={mainStyles.label}>Add the answer to the question</Text>
+            <View style={mainStyles.inputContainer}>
+              <TextInput style={mainStyles.input} onChangeText={this._handleValue("answer")} value={answer} keyboardType="default" autoCapitalize="sentences" returnKeyType="done" placeholder="Answer" />
             </View>
           </View>
-          <View style={styles.inputWrapper}>
-            <Text style={styles.label}>
+          <View style={{ marginBottom:30}}>
+            <Text style={mainStyles.label}>
               {bool
                 .toString()
                 .charAt(0)
                 .toUpperCase()
                 .concat(bool.toString().substr(1))}
             </Text>
-            <View style={styles.inputContainer}>
+            <View style={mainStyles.inputContainer}>
               <Switch onTintColor={teal} onValueChange={bool => this.setState(
                     { bool }
                   )} thumbTintColor={white} tintColor={teal} value={bool} />
             </View>
           </View>
-          <View style={[styles.inputWrapper, { backgroundColor: teal, marginHorizontal: 50 }]}>
+          <View style={{ marginBottom:30, backgroundColor: teal, marginTop: 50 }}>
             <Button onPress={this._submitValues} disabled={question.length > 0 && answer.length > 0 ? false : true} title="Submit" accessibilityLabel="Submit Values" color={lightGray} />
           </View>
         </View>
         <Modal visible={this.state.visible} animationType="fade" onRequestClose={this._close}>
-          <View style={styles.container}>
-            <TouchableOpacity onPress={this._close} style={styles.button}>
+          <View style={mainStyles.container}>
+            <TouchableOpacity onPress={this._close} style={mainStyles.button}>
               <Text>Close </Text>
               <Entypo name="cross" size={25} color={teal} />
             </TouchableOpacity>
@@ -113,45 +109,5 @@ class AddCardScreen extends Component {
       </KeyboardAvoidingView>;
   }
 }
-
-const styles = StyleSheet.create({
-  container:{
-    flex:1,
-    justifyContent:'center',
-    alignItems:'center'
-  },
-  inputWrapper:{
-    marginBottom:30
-  },
-  label: {
-    paddingHorizontal: 35,
-    marginBottom: 10,
-    fontSize: 18,
-    textAlign:'center'
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent:'center'
-  },
-  input: {
-    flex: 0.9,
-    height: 40,
-    borderWidth: Platform.OS === 'ios' ? 1 : null,
-    borderColor: teal,
-    borderRadius: Platform.OS === 'ios' ? 2 : null,
-    paddingVertical: 5,
-    paddingHorizontal: 15
-  },
-  button: {
-    position: 'absolute',
-    top: 45,
-    left: Math.ceil(width - 90),
-    flexDirection: 'row',
-    alignItems: 'center'
-  }
-})
-
-
 
 export default connect()(AddCardScreen)
