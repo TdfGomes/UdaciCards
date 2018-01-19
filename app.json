@@ -1,5 +1,11 @@
 {
   "expo": {
-    "sdkVersion": "23.0.0"
+    "sdkVersion": "23.0.0",
+    "orientation" :"portrait",
+    "splash": {
+      "image": "./assets/splash.png",
+      "backgroundColor": "#009688",
+      "resizeMode":"cover"
+    }
   }
 }

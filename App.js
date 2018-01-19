@@ -2,7 +2,7 @@ import React from 'react'
 import { createStore }  from 'redux'
 import { Provider } from 'react-redux'
 import decks from './reducers'
-import { View, Platform, StatusBar } from 'react-native'
+import { View, Platform } from 'react-native'
 import DeckList from './components/DeckList'
 import AddDeckScreen from './components/AddDeckScreen'
 import SingleDeck from './components/SingleDeck'
@@ -11,16 +11,10 @@ import AddCardScreen from './components/AddCardScreen'
 import { TabNavigator, StackNavigator } from 'react-navigation'
 import { Ionicons } from '@expo/vector-icons'
 import { teal, lightGray, lime } from './utils/colors'
-import { Constants } from 'expo'
 import { setLocalNotification } from "./utils/api";
+import AppStatusBar from './components/AppStatusBar'
 
 const store = createStore(decks)
-
-const AppStatusBar = ({ backgroundColor, ...props }) => (
-  <View style={{ backgroundColor, height: Constants.statusBarHeight }}>
-    <StatusBar translucent backgroundColor={backgroundColor} {...props} />
-  </View>
-)
 
 const Tabs = TabNavigator({
   Home: {

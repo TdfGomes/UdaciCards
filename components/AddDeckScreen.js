@@ -28,7 +28,9 @@ class AddDeck extends Component{
     this.setState(prevState => ({
       visible: !prevState.visible,
       title: ""
-    }));
+    }),() => {
+      this.props.navigation.goBack(null);
+    });
   }
 
   render(){

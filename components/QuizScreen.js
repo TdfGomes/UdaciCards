@@ -141,10 +141,7 @@ class QuizScreen extends Component {
       }
     }
   };
-  _goHome = () => {
-     this._close()
-     this.props.navigation.navigate('Home')
-  }
+  
   _resetDeck = () => {
 
     this._close()
@@ -240,7 +237,7 @@ class QuizScreen extends Component {
             <Text style={[styles.questionText, {marginBottom:100}]}>
               You get <Text style={{fontWeight:'700',color:teal}}>{this.state.score}</Text> from <Text style={{fontWeight:'700',color:teal}}>{currQuiz.questions.length}</Text>
             </Text>
-            <Buttons style={styles.container} primary={teal} secondary={lightGray} primaryTitle="Go Home" secondaryTitle="Repeat" onPressPrimary={() => this._goHome()} onPressSecondary={() => this._resetDeck()} />
+            <Buttons style={styles.container} primary={teal} secondary={lightGray} primaryTitle="Repeat" secondaryTitle="Return to Deck" onPressPrimary={() => this._resetDeck()} onPressSecondary={() => this.props.navigation.goBack(null)} />
           </View>
         </Modal>
       </View>;

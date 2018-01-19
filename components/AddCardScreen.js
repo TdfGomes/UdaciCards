@@ -50,12 +50,15 @@ class AddCardScreen extends Component {
   }
 
   _close = () => {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       visible: !prevState.visible,
       question: "",
       answer: "",
       bool: false
-    }));
+    }),() => {
+      this.props.navigation.goBack(null);
+    });
+    
   };
 
   render(){
