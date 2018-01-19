@@ -60,20 +60,22 @@ class AddCardScreen extends Component {
   render(){
     const { question, answer, bool } = this.state
     return <KeyboardAvoidingView style={mainStyles.container} behavior="padding">
-        <View style={styles.form}>
-          <View style={{ marginBottom:30}}>
+        <View>
+          <View style={{ marginBottom: 30 }}>
             <Text style={mainStyles.label}>Add a new card question</Text>
             <View style={mainStyles.inputContainer}>
               <TextInput style={mainStyles.input} onChangeText={this._handleValue("question")} value={question} keyboardType="default" autoCapitalize="sentences" returnKeyType="done" placeholder="Question" />
             </View>
           </View>
-          <View style={{ marginBottom:30}}>
-            <Text style={mainStyles.label}>Add the answer to the question</Text>
+          <View style={{ marginBottom: 30 }}>
+            <Text style={mainStyles.label}>
+              Add the answer to the question
+            </Text>
             <View style={mainStyles.inputContainer}>
               <TextInput style={mainStyles.input} onChangeText={this._handleValue("answer")} value={answer} keyboardType="default" autoCapitalize="sentences" returnKeyType="done" placeholder="Answer" />
             </View>
           </View>
-          <View style={{ marginBottom:30}}>
+          <View style={{ marginBottom: 30 }}>
             <Text style={mainStyles.label}>
               {bool
                 .toString()
@@ -87,7 +89,7 @@ class AddCardScreen extends Component {
                   )} thumbTintColor={white} tintColor={teal} value={bool} />
             </View>
           </View>
-          <View style={{ marginBottom:30, backgroundColor: teal, marginTop: 50 }}>
+          <View style={{ marginBottom: 30, backgroundColor: teal, marginTop: 50 }}>
             <Button onPress={this._submitValues} disabled={question.length > 0 && answer.length > 0 ? false : true} title="Submit" accessibilityLabel="Submit Values" color={lightGray} />
           </View>
         </View>
@@ -97,7 +99,7 @@ class AddCardScreen extends Component {
               <Text>Close </Text>
               <Entypo name="cross" size={25} color={teal} />
             </TouchableOpacity>
-            <Text style={styles.modalText}>
+            <Text style={{ fontSize: 20 }}>
               You add new card in <Text
                 style={{ fontWeight: "700", color: teal }}
               >
