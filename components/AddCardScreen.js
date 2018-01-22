@@ -81,7 +81,7 @@ class AddCardScreen extends Component {
                 .toString()
                 .charAt(0)
                 .toUpperCase()
-                .concat(bool.toString().substr(1))}
+                .concat( bool.toString().substr(1) )}
             </Text>
             <View style={mainStyles.inputContainer}>
               <Switch onTintColor={teal} onValueChange={bool => this.setState(

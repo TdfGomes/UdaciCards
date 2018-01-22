@@ -22,6 +22,10 @@ export const getDecks = () => {
     })
 }
 
+export const getDeck = (deck) => {
+  return getDecks().then((res) => res[deck])
+}
+
 export function submitDeck(title){
   return AsyncStorage.mergeItem(DECKS_STORAGE_KEY, JSON.stringify({
     [title]: {

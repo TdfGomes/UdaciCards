@@ -2,14 +2,13 @@ import React, { Component } from 'react'
 import { View, Text, TextInput, StyleSheet, Platform, Modal, TouchableOpacity } from 'react-native'
 import { teal, white, mainStyles } from '../utils/styles'
 import { connect } from 'react-redux'
-import { submitDeck } from '../utils/api'
+import { submitDeck, getDeck } from '../utils/api'
 import { addDeck } from '../actions'
 import { Entypo } from '@expo/vector-icons'
 
 class AddDeck extends Component{
   state = {
     title:'',
-    visible:false
   }
 
   _submit = () => {
@@ -18,19 +17,14 @@ class AddDeck extends Component{
     
     if(title.length > 0){
       submitDeck(title)
-      addDeck(title)
-      this.setState({visible:true})
-    }  
+        .then(() => addDeck(title));
+        
+      getDeck(title).then(deck =>
+        this.props.navigation.navigate("SingleDeck", { deckId: deck.title })
+      );
+    }
   }
-  _close = () => {
-    this.setState(prevState => ({
-      visible: !prevState.visible,
-      title: ""
-    }),() => {
-      this.props.navigation.goBack(null);
-    });
-  }
-
+  
   render(){
     return <View style={mainStyles.container}>
         <Text style={mainStyles.label}>Add a new deck title</Text>
@@ -44,27 +38,11 @@ class AddDeck extends Component{
             Add Deck
           </Text>
         </TouchableOpacity>
-        <Modal visible={this.state.visible} animationType="fade" onRequestClose={this._close}>
-          <View style={mainStyles.container}>
-            <TouchableOpacity onPress={this._close} style={mainStyles.button}>
-              <Text>Close </Text>
-              <Entypo name="cross" size={25} color={teal} />
-            </TouchableOpacity>
-            <Text style={styles.modalText}>
-              You add <Text style={{ fontWeight: "700", color: teal }}>
-                {this.state.title}
-              </Text> to your Deck List
-            </Text>
-          </View>
-        </Modal>
       </View>;
   }
 }
 
 const styles = StyleSheet.create({
-  modalText: {
-    fontSize: 20
-  },
   submitBtn: {
     width: 142,
     paddingVertical: 15,
