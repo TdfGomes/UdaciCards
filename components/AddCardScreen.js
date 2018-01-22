@@ -5,7 +5,6 @@ import {
   TextInput,
   Platform,
   Button,
-  Modal,
   TouchableOpacity,
   KeyboardAvoidingView,
   Switch } from 'react-native'
@@ -20,7 +19,6 @@ class AddCardScreen extends Component {
     question:'',
     answer:'',
     bool:false,
-    visible:false
   }
   _handleValue = (input) => (value) => {
     this.setState({
@@ -29,7 +27,7 @@ class AddCardScreen extends Component {
   }
 
   _submitValues = () => {
-    const {navigation:{state:{params:{deckId}}}} = this.props
+    const { navigation: { state: { params: { deckId } } }, addCard } = this.props;
     const { question, answer, bool } = this.state
 
     const questions = {
@@ -39,23 +37,18 @@ class AddCardScreen extends Component {
     }
 
     if(question.length > 0 && answer.length > 0){
-      this.props.dispatch(addCard(deckId,questions));
-      submitCard(deckId,questions)
-      this.setState({ visible: true })
+      
+      submitCard(deckId, questions)
+        .then(() => addCard(deckId, questions))
+        .then(() => this.props.navigation.goBack(null))
+        .then(() =>  this.setState((prevState) => ({
+            question: "",
+            answer: "",
+            bool: false
+          }))
+        )
     }
   }
-
-  _close = () => {
-    this.setState((prevState) => ({
-      visible: !prevState.visible,
-      question: "",
-      answer: "",
-      bool: false
-    }),() => {
-      this.props.navigation.goBack(null);
-    });
-    
-  };
 
   render(){
     const { question, answer, bool } = this.state
@@ -93,23 +86,8 @@ class AddCardScreen extends Component {
             <Button onPress={this._submitValues} disabled={question.length > 0 && answer.length > 0 ? false : true} title="Submit" accessibilityLabel="Submit Values" color={lightGray} />
           </View>
         </View>
-        <Modal visible={this.state.visible} animationType="fade" onRequestClose={this._close}>
-          <View style={mainStyles.container}>
-            <TouchableOpacity onPress={this._close} style={mainStyles.button}>
-              <Text>Close </Text>
-              <Entypo name="cross" size={25} color={teal} />
-            </TouchableOpacity>
-            <Text style={{ fontSize: 20 }}>
-              You add new card in <Text
-                style={{ fontWeight: "700", color: teal }}
-              >
-                {this.props.navigation.state.params.deckId}
-              </Text> deck
-            </Text>
-          </View>
-        </Modal>
       </KeyboardAvoidingView>;
   }
 }
 
-export default connect()(AddCardScreen)
+export default connect(null,{ addCard })(AddCardScreen);

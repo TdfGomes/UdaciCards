@@ -36,7 +36,7 @@ export function submitDeck(title){
 }
 
 export function submitCard(title,card){
-  getDecks().then(({[title]:{questions}}) => {
+  return getDecks().then(({[title]:{questions}}) => {
     return AsyncStorage.mergeItem(DECKS_STORAGE_KEY, JSON.stringify({
       [title]:{
         questions: [...questions,{...card}]

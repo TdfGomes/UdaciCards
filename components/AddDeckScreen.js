@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, TextInput, StyleSheet, Platform, Modal, TouchableOpacity } from 'react-native'
+import { View, Text, TextInput, StyleSheet, Platform, TouchableOpacity } from 'react-native'
 import { teal, white, mainStyles } from '../utils/styles'
 import { connect } from 'react-redux'
 import { submitDeck, getDeck } from '../utils/api'
@@ -17,11 +17,15 @@ class AddDeck extends Component{
     
     if(title.length > 0){
       submitDeck(title)
-        .then(() => addDeck(title));
-        
-      getDeck(title).then(deck =>
-        this.props.navigation.navigate("SingleDeck", { deckId: deck.title })
-      );
+        .then(() => addDeck(title))
+        .then(() => getDeck(title)
+            .then(deck =>
+              this.props.navigation.navigate("SingleDeck", {
+                deckId: deck.title
+              })
+            )
+            .then(() => this.setState({ title: "" }))
+        );
     }
   }
   
