@@ -4,14 +4,11 @@ This project has been developed as part of the Udacity React Nanodegree. It crea
 
 This app was tested on android and iOS devices. 
 
-You can execute this project by cloning or downloading the git repository `https://github.com/kukkuraghu/flashcards.git`.
-
 This project was bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app).
 
 ## Steps to install :
 
-* Clone or download this git repository to readable folder
-
+* Clone or download [this git repository](https://github.com/TiagoGomesDesign/UdaciCards) to readable folder
   * Execute `yarn install`
   * Execute `yarn start`
   * Then use an emulator or device with Expo to test out the app.
