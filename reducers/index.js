@@ -18,6 +18,7 @@ const decks = (state = {}, action) => {
       return {
         ...state,
         [action.deck]:{
+          ...state[action.deck],
           questions,
         }
       }
