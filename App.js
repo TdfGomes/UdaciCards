@@ -1,7 +1,7 @@
 import React from 'react'
 import { createStore }  from 'redux'
 import { Provider } from 'react-redux'
-import decks from './reducers'
+import configureStore from './store'
 import { View, Platform } from 'react-native'
 import DeckList from './components/DeckList'
 import AddDeckScreen from './components/AddDeckScreen'
@@ -14,7 +14,7 @@ import { teal, lightGray, lime } from './utils/styles'
 import { setLocalNotification } from "./utils/api";
 import AppStatusBar from './components/AppStatusBar'
 
-const store = createStore(decks)
+const store = configureStore()
 
 const Tabs = TabNavigator({
   Home: {

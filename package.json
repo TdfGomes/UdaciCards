@@ -5,7 +5,9 @@
   "devDependencies": {
     "jest-expo": "23.0.0",
     "react-native-scripts": "1.8.1",
-    "react-test-renderer": "16.0.0"
+    "react-test-renderer": "16.0.0",
+    "remote-redux-devtools": "^0.5.12",
+    "remotedev-rn-debugger": "^0.8.3"
   },
   "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
   "scripts": {
@@ -14,8 +16,9 @@
     "android": "react-native-scripts android",
     "ios": "react-native-scripts ios",
     "test": "node node_modules/jest/bin/jest.js --watch",
-    "clear": "rm -rf $TMPDIR/react-native-packager-cache-* && rm -rf $TMPDIR/metro-bundler-cache-*"
-
+    "clear": "rm -rf $TMPDIR/react-native-packager-cache-* && rm -rf $TMPDIR/metro-bundler-cache-*",
+    "remotedev": "remotedev-debugger --injectserver",
+    "postinstall": "yarn run remotedev && rndebugger-open"
   },
   "jest": {
     "preset": "jest-expo"
