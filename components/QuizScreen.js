@@ -181,7 +181,14 @@ class QuizScreen extends Component {
         </View>
         <ScrollView ref={scrollView => {
             this.scrollView = scrollView;
-          }} horizontal decelerationRate={0} snapToInterval={width} snapToAlignment={"center"} scrollEnabled={false} onMomentumScrollEnd={this._handleOnscroll} contentInset={{ top: 0, left: 30, bottom: 0, right: 30 }}>
+          }} horizontal
+            decelerationRate={0}
+            snapToInterval={width}
+            snapToAlignment={"center"}
+            scrollEnabled={false}
+            onMomentumScrollEnd={this._handleOnscroll}
+            contentInset={{ top: 0, left: 30, bottom: 0, right: 30 }}
+          >
           {currQuiz.questions.map((question, index) => {
             return <View key={index} style={[styles.center, { flex: 1 }]}>
                 <View>
