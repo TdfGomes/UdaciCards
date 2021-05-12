@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "expo": "^23.0.4",
-    "react": "16.0.0",
+    "react": "17.0.2",
     "react-native": "0.51.1",
     "react-navigation": "^1.0.0-beta.22",
     "react-redux": "^5.0.6",
