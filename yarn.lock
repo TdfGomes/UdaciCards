@@ -3885,9 +3885,9 @@ expo-application@~4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/expo-application/-/expo-application-4.0.1.tgz#d38a1315c06c253b843c951ddc6fbb9a026f05cc"
 
-expo-asset@~8.4.4:
-  version "8.4.4"
-  resolved "https://registry.yarnpkg.com/expo-asset/-/expo-asset-8.4.4.tgz#6214270a41af378ac734a28fbff7b542ca84a3cf"
+expo-asset@~8.4.5:
+  version "8.4.5"
+  resolved "https://registry.yarnpkg.com/expo-asset/-/expo-asset-8.4.5.tgz#730579b48408222c210beface7508224683f1740"
   dependencies:
     blueimp-md5 "^2.10.0"
     invariant "^2.2.4"
@@ -3923,9 +3923,9 @@ expo-keep-awake@~10.0.1:
   version "10.0.1"
   resolved "https://registry.yarnpkg.com/expo-keep-awake/-/expo-keep-awake-10.0.1.tgz#9f1176216c41eee20843c8232acfdca2bc32d334"
 
-expo-modules-autolinking@0.5.1:
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/expo-modules-autolinking/-/expo-modules-autolinking-0.5.1.tgz#44f56288d55f6a71576ddd94c18ec9ec8141207b"
+expo-modules-autolinking@0.5.2:
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/expo-modules-autolinking/-/expo-modules-autolinking-0.5.2.tgz#fb8812a88d6e22d014188c8252ea0c17c1ef4893"
   dependencies:
     chalk "^4.1.0"
     commander "^7.2.0"
@@ -3940,9 +3940,9 @@ expo-modules-core@0.6.3:
     compare-versions "^3.4.0"
     invariant "^2.2.4"
 
-expo@^44.0.0:
-  version "44.0.0"
-  resolved "https://registry.yarnpkg.com/expo/-/expo-44.0.0.tgz#794d1f062e232018d26ef01ad570673c78a5f54d"
+expo@^44.0.1:
+  version "44.0.1"
+  resolved "https://registry.yarnpkg.com/expo/-/expo-44.0.1.tgz#998a29c8e7eeab1c72d4e51d907494e16a49ed1c"
   dependencies:
     "@babel/runtime" "^7.14.0"
     "@expo/metro-config" "~0.2.6"
@@ -3950,12 +3950,12 @@ expo@^44.0.0:
     babel-preset-expo "~9.0.2"
     cross-spawn "^6.0.5"
     expo-application "~4.0.1"
-    expo-asset "~8.4.4"
+    expo-asset "~8.4.5"
     expo-constants "~13.0.0"
     expo-file-system "~13.1.0"
     expo-font "~10.0.4"
     expo-keep-awake "~10.0.1"
-    expo-modules-autolinking "0.5.1"
+    expo-modules-autolinking "0.5.2"
     expo-modules-core "0.6.3"
     fbemitter "^2.1.1"
     invariant "^2.2.4"
