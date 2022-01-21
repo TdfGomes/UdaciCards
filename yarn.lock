@@ -3210,9 +3210,9 @@ expo-application@~4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/expo-application/-/expo-application-4.0.1.tgz#d38a1315c06c253b843c951ddc6fbb9a026f05cc"
 
-expo-asset@~8.4.5:
-  version "8.4.5"
-  resolved "https://registry.yarnpkg.com/expo-asset/-/expo-asset-8.4.5.tgz#730579b48408222c210beface7508224683f1740"
+expo-asset@~8.4.6:
+  version "8.4.6"
+  resolved "https://registry.yarnpkg.com/expo-asset/-/expo-asset-8.4.6.tgz#1c40e9badac66dbd3d2be2810711937e5b9b09bd"
   dependencies:
     blueimp-md5 "^2.10.0"
     invariant "^2.2.4"
@@ -3248,9 +3248,9 @@ expo-keep-awake@~10.0.1:
   version "10.0.1"
   resolved "https://registry.yarnpkg.com/expo-keep-awake/-/expo-keep-awake-10.0.1.tgz#9f1176216c41eee20843c8232acfdca2bc32d334"
 
-expo-modules-autolinking@0.5.4:
-  version "0.5.4"
-  resolved "https://registry.yarnpkg.com/expo-modules-autolinking/-/expo-modules-autolinking-0.5.4.tgz#d105d46cb6faab71c72c3181b9c2ab8cc8b09dba"
+expo-modules-autolinking@0.5.5:
+  version "0.5.5"
+  resolved "https://registry.yarnpkg.com/expo-modules-autolinking/-/expo-modules-autolinking-0.5.5.tgz#6bcc42072dcbdfca79d207b7f549f1fdb54a2b74"
   dependencies:
     chalk "^4.1.0"
     commander "^7.2.0"
@@ -3258,16 +3258,16 @@ expo-modules-autolinking@0.5.4:
     find-up "^5.0.0"
     fs-extra "^9.1.0"
 
-expo-modules-core@0.6.3:
-  version "0.6.3"
-  resolved "https://registry.yarnpkg.com/expo-modules-core/-/expo-modules-core-0.6.3.tgz#e5326169a888144f2691ffd49b7686dfac235227"
+expo-modules-core@0.6.4:
+  version "0.6.4"
+  resolved "https://registry.yarnpkg.com/expo-modules-core/-/expo-modules-core-0.6.4.tgz#dd0265da98a92bd8004c83d9953136e4820f1bef"
   dependencies:
     compare-versions "^3.4.0"
     invariant "^2.2.4"
 
-expo@^44.0.3:
-  version "44.0.3"
-  resolved "https://registry.yarnpkg.com/expo/-/expo-44.0.3.tgz#6f30ff51fbb2608a408c7ac10aeb703fc04d304e"
+expo@^44.0.5:
+  version "44.0.5"
+  resolved "https://registry.yarnpkg.com/expo/-/expo-44.0.5.tgz#2b681c07e7bb3665c50b70a18850ce6cbc91c23f"
   dependencies:
     "@babel/runtime" "^7.14.0"
     "@expo/metro-config" "~0.2.6"
@@ -3275,13 +3275,13 @@ expo@^44.0.3:
     babel-preset-expo "~9.0.2"
     cross-spawn "^6.0.5"
     expo-application "~4.0.1"
-    expo-asset "~8.4.5"
+    expo-asset "~8.4.6"
     expo-constants "~13.0.0"
     expo-file-system "~13.1.0"
     expo-font "~10.0.4"
     expo-keep-awake "~10.0.1"
-    expo-modules-autolinking "0.5.4"
-    expo-modules-core "0.6.3"
+    expo-modules-autolinking "0.5.5"
+    expo-modules-core "0.6.4"
     fbemitter "^2.1.1"
     invariant "^2.2.4"
     md5-file "^3.2.3"
